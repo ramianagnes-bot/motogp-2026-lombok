@@ -1,0 +1,646 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&amp;family=Geist+Mono:wght@400;500;600&amp;display=swap" rel="stylesheet">
+<style>
+@keyframes ffpulse{0%,100%{opacity:1}50%{opacity:.4}}
+html,body{margin:0;background:#0a111f}
+input,select,button,textarea{font-family:'Geist',system-ui,sans-serif}
+input::placeholder,textarea::placeholder{color:#3f5170}
+input[type=date]::-webkit-calendar-picker-indicator{filter:invert(.6)}
+::-webkit-scrollbar{width:10px;height:10px}
+::-webkit-scrollbar-thumb{background:#1f2d44;border-radius:6px;border:2px solid #0a111f}
+::-webkit-scrollbar-track{background:transparent}
+@media print{body{background:#fff!important;-webkit-print-color-adjust:exact;print-color-adjust:exact}.no-print{display:none!important}}
+</style>
+<template id="__bundler_thumbnail"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 140"><rect width="200" height="140" fill="#0a111f"/><rect x="20" y="20" width="160" height="14" rx="3" fill="#4f8df9" opacity=".9"/><rect x="20" y="44" width="38" height="24" rx="3" fill="#1c2c47"/><rect x="64" y="44" width="38" height="24" rx="3" fill="#1c2c47"/><rect x="108" y="44" width="38" height="24" rx="3" fill="#1c2c47"/><rect x="152" y="44" width="28" height="24" rx="3" fill="#2cc4d6" opacity=".8"/><rect x="20" y="80" width="100" height="8" rx="2" fill="#1c2c47"/><rect x="20" y="80" width="62" height="8" rx="2" fill="#4f8df9"/><rect x="20" y="96" width="100" height="8" rx="2" fill="#1c2c47"/><rect x="20" y="96" width="82" height="8" rx="2" fill="#2cc4d6"/><rect x="20" y="112" width="100" height="8" rx="2" fill="#1c2c47"/><rect x="20" y="112" width="30" height="8" rx="2" fill="#f0a93b"/></svg></template>
+</helmet>
+
+<div data-screen-label="MotoGP Logistics" style="min-height:100vh;background:#0a111f;font-family:'Geist',system-ui,sans-serif;color:#e6edf7">
+
+  <!-- HEADER -->
+  <div class="no-print" style="position:sticky;top:0;z-index:10;background:rgba(10,17,31,.92);backdrop-filter:blur(12px);border-bottom:1px solid #16223a">
+    <div style="padding:16px 36px 0;display:flex;align-items:center;gap:18px">
+      <div style="background:#fff;border-radius:8px;padding:5px 10px;flex-shrink:0;display:flex;align-items:center"><img src="uploads/Picture1.png" alt="InJourney Aviation Services" style="height:26px;width:auto;display:block"></div>
+      <div style="width:1px;height:30px;background:#1f2d44;flex-shrink:0"></div>
+      <div style="min-width:0">
+        <div style="display:flex;align-items:center;gap:11px"><span style="font:700 19px 'Geist';color:#e6edf7">MotoGP 2026 · Mandalika</span><span style="font:600 11px 'Geist Mono';letter-spacing:.06em;background:linear-gradient(135deg,#4f8df9,#2cc4d6);color:#0a111f;padding:3px 9px;border-radius:6px">LOGISTICS</span></div>
+        <div style="font:400 13px 'Geist';color:#8294b0;margin-top:3px">Pertamina Grand Prix of Indonesia · Mandalika Circuit, Lombok</div>
+      </div>
+      <div style="margin-left:auto;display:flex;align-items:center;gap:10px">
+        <div style="text-align:right"><div style="font:700 15px 'Geist Mono';color:#e6edf7;letter-spacing:.04em">{{ nowTime }}</div><div style="font:400 11px 'Geist';color:#5f7494;margin-top:2px">{{ nowDate }}</div></div>
+        <div style="width:1px;height:30px;background:#1f2d44"></div>
+        <div style="font:500 12px 'Geist';color:#34d399;background:rgba(52,211,153,.1);border:1px solid rgba(52,211,153,.25);padding:7px 13px;border-radius:9px">Live · team-entered</div>
+      </div>
+    </div>
+    <div style="padding:0 36px;display:flex;gap:26px">
+      <button style="{{ tabOverviewStyle }}" onClick="{{ selOverview }}">Overview</button>
+      <button style="{{ tabDataStyle }}" onClick="{{ selData }}"><svg width="13" height="13" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.3"><path d="M7 2.5v9M2.5 7h9"></path></svg>Data Entry</button>
+      <button style="{{ tabCostStyle }}" onClick="{{ selCost }}"><svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.3"><rect x="2" y="5.2" width="8" height="5.3" rx="1.2" fill="currentColor" stroke="none"></rect><path d="M3.4 5.2V3.6a2.6 2.6 0 015.2 0v1.6"></path></svg>Cost Control<span style="font:600 9px 'Geist Mono';letter-spacing:.04em;background:rgba(255,111,89,.15);color:#ff8a76;padding:2px 6px;border-radius:5px">INTERNAL</span></button>
+    </div>
+  </div>
+
+  <!-- ===== OVERVIEW ===== -->
+  <sc-if value="{{ showOverview }}" hint-placeholder-val="{{ true }}">
+  <div style="max-width:1340px;margin:0 auto;padding:26px 36px 60px;display:flex;flex-direction:column;gap:22px">
+    <div>
+      <div style="display:flex;align-items:center;gap:14px;margin-bottom:16px">
+        <div style="font:600 15px 'Geist';color:#e6edf7">Shipment overview</div>
+        <div style="display:flex;gap:4px;background:#101c30;border:1px solid #1c2c47;border-radius:11px;padding:4px">
+          <button style="{{ segAllStyle }}" onClick="{{ selAll }}">All flows</button>
+          <button style="{{ segInStyle }}" onClick="{{ selIn }}">Inbound</button>
+          <button style="{{ segOutStyle }}" onClick="{{ selOut }}">Outbound</button>
+        </div>
+        <div style="margin-left:auto;display:flex;align-items:center;gap:10px">
+          <div style="font:400 12px 'Geist';color:#5f7494">{{ segNote }}</div>
+          <button onClick="{{ exportPDF }}" class="no-print" style="appearance:none;border:1px solid #1f2d44;cursor:pointer;background:#0f1b30;color:#aebbd2;font:500 12px 'Geist';padding:7px 13px;border-radius:8px;display:flex;align-items:center;gap:6px" style-hover="border-color:#4f8df9;color:#e6edf7"><svg width="12" height="12" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.3"><rect x="2" y="9" width="10" height="4" rx="1"></rect><path d="M4 9V2h4l2 2v5M8 2v3h3"></path></svg>PDF</button>
+          <button onClick="{{ exportShipsCSV }}" class="no-print" style="appearance:none;border:1px solid #1f2d44;cursor:pointer;background:#0f1b30;color:#aebbd2;font:500 12px 'Geist';padding:7px 13px;border-radius:8px;display:flex;align-items:center;gap:6px" style-hover="border-color:#2cc4d6;color:#e6edf7"><svg width="12" height="12" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.3"><path d="M2 10v2a1 1 0 001 1h8a1 1 0 001-1v-2M7 2v7M4.5 6.5L7 9l2.5-2.5"></path></svg>CSV</button>
+        </div>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:14px">
+        <div style="background:linear-gradient(160deg,#13233c,#101c30);border:1px solid #1c2c47;border-radius:14px;padding:18px"><div style="font:500 11px 'Geist';color:#8294b0;text-transform:uppercase;letter-spacing:.05em">Shipments</div><div style="font:600 30px 'Geist Mono';color:#e6edf7;margin-top:8px">{{ kShip }}</div><div style="font:400 12px 'Geist';color:#8294b0;margin-top:4px">{{ kShipSub }}</div></div>
+        <div style="background:linear-gradient(160deg,#13233c,#101c30);border:1px solid #1c2c47;border-radius:14px;padding:18px"><div style="font:500 11px 'Geist';color:#8294b0;text-transform:uppercase;letter-spacing:.05em">Total cargo</div><div style="font:600 30px 'Geist Mono';color:#2cc4d6;margin-top:8px">{{ kWeight }}<span style="font-size:16px;color:#5f7494"> t</span></div><div style="font:400 12px 'Geist';color:#8294b0;margin-top:4px">gross weight</div></div>
+        <div style="background:linear-gradient(160deg,#13233c,#101c30);border:1px solid #1c2c47;border-radius:14px;padding:18px"><div style="font:500 11px 'Geist';color:#8294b0;text-transform:uppercase;letter-spacing:.05em">Containers</div><div style="font:600 30px 'Geist Mono';color:#e6edf7;margin-top:8px">{{ kCont }}</div><div style="font:400 12px 'Geist';color:#8294b0;margin-top:4px">40′ high-cube SOC</div></div>
+        <div style="background:linear-gradient(160deg,#13233c,#101c30);border:1px solid #1c2c47;border-radius:14px;padding:18px"><div style="font:500 11px 'Geist';color:#8294b0;text-transform:uppercase;letter-spacing:.05em">Packages</div><div style="font:600 30px 'Geist Mono';color:#e6edf7;margin-top:8px">{{ kPkgs }}</div><div style="font:400 12px 'Geist';color:#8294b0;margin-top:4px">koli / crates / boxes</div></div>
+        <div style="background:linear-gradient(160deg,#13233c,#101c30);border:1px solid #1c2c47;border-radius:14px;padding:18px"><div style="font:500 11px 'Geist';color:#8294b0;text-transform:uppercase;letter-spacing:.05em">Carriers</div><div style="font:600 30px 'Geist Mono';color:#e6edf7;margin-top:8px">{{ kCarr }}</div><div style="font:400 12px 'Geist';color:#8294b0;margin-top:4px">lines + airlines</div></div>
+      </div>
+    </div>
+    <!-- PIPELINE STRIP -->
+    <div style="background:#101c30;border:1px solid #1c2c47;border-radius:16px;overflow:hidden">
+      <div style="padding:14px 20px;border-bottom:1px solid #1c2c47;display:flex;align-items:center;gap:10px">
+        <div style="font:600 13px 'Geist';color:#e6edf7">Shipment pipeline</div>
+        <div style="font:400 12px 'Geist';color:#5f7494">Stage count · all shipments · update status di Data Entry</div>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(7,1fr) minmax(80px,1fr)">
+        <sc-for list="{{ pipeline }}" as="p" hint-placeholder-count="7">
+          <div style="padding:16px 10px;border-right:1px solid #1c2c47;text-align:center">
+            <div style="font:700 9px 'Geist';letter-spacing:.06em;text-transform:uppercase;color:{{ p.color }};margin-bottom:10px;line-height:1.5;white-space:pre-line">{{ p.label }}</div>
+            <div style="font:700 30px 'Geist Mono';color:#e6edf7">{{ p.count }}</div>
+          </div>
+        </sc-for>
+        <div style="padding:16px 10px;text-align:center;background:#15233c">
+          <div style="font:700 9px 'Geist';letter-spacing:.06em;text-transform:uppercase;color:#2cc4d6;margin-bottom:10px">TOTAL</div>
+          <div style="font:700 30px 'Geist Mono';color:#2cc4d6">{{ pipelineTotal }}</div>
+        </div>
+      </div>
+    </div>
+
+    <div style="display:grid;grid-template-columns:1.4fr 1fr;gap:22px">
+      <div style="background:#101c30;border:1px solid #1c2c47;border-radius:16px;padding:22px">
+        <div style="font:600 14px 'Geist';color:#e6edf7;margin-bottom:4px">Inbound vs outbound</div>
+        <div style="font:400 12px 'Geist';color:#8294b0;margin-bottom:22px">Shipments by direction &amp; mode · <span style="color:#2cc4d6">■</span> Sea <span style="color:#4f8df9;margin-left:8px">■</span> Air</div>
+        <div style="display:flex;flex-direction:column;gap:20px">
+          <div>
+            <div style="display:flex;justify-content:space-between;font:500 13px 'Geist';margin-bottom:8px"><span style="color:#e6edf7">Inbound → Lombok</span><span style="font-family:'Geist Mono';color:#8294b0">{{ inTotal }} shipments</span></div>
+            <div style="display:flex;height:30px;border-radius:7px;overflow:hidden;gap:2px;background:#15233c"><div style="width:{{ inSeaW }};background:#2cc4d6;display:flex;align-items:center;padding-left:11px;font:600 12px 'Geist';color:#0a111f;white-space:nowrap;overflow:hidden">{{ inSeaN }} sea</div><div style="width:{{ inAirW }};background:#4f8df9;display:flex;align-items:center;padding-left:11px;font:600 12px 'Geist';color:#0a111f;white-space:nowrap;overflow:hidden">{{ inAirN }} air</div></div>
+          </div>
+          <div>
+            <div style="display:flex;justify-content:space-between;font:500 13px 'Geist';margin-bottom:8px"><span style="color:#e6edf7">Outbound → home circuits</span><span style="font-family:'Geist Mono';color:#8294b0">{{ outTotal }} shipments</span></div>
+            <div style="display:flex;height:30px;border-radius:7px;overflow:hidden;gap:2px;background:#15233c"><div style="width:{{ outSeaW }};background:#2cc4d6;display:flex;align-items:center;padding-left:11px;font:600 12px 'Geist';color:#0a111f;white-space:nowrap;overflow:hidden">{{ outSeaN }} sea</div><div style="width:{{ outAirW }};background:#4f8df9;display:flex;align-items:center;padding-left:11px;font:600 12px 'Geist';color:#0a111f;white-space:nowrap;overflow:hidden">{{ outAirN }} air</div></div>
+          </div>
+          <div style="border-top:1px solid #1c2c47;padding-top:16px;display:flex;gap:26px">
+            <div><div style="font:600 20px 'Geist Mono';color:#e6edf7">{{ deliveredPct }}%</div><div style="font:400 11px 'Geist';color:#8294b0;margin-top:2px">Delivered to circuit</div></div>
+            <div><div style="font:600 20px 'Geist Mono';color:#4f8df9">{{ transitN }}</div><div style="font:400 11px 'Geist';color:#8294b0;margin-top:2px">In transit / departed</div></div>
+            <div><div style="font:600 20px 'Geist Mono';color:#e6edf7">{{ totalLegs }}</div><div style="font:400 11px 'Geist';color:#8294b0;margin-top:2px">Total shipment legs</div></div>
+          </div>
+        </div>
+      </div>
+      <div style="background:#101c30;border:1px solid #1c2c47;border-radius:16px;padding:22px">
+        <div style="font:600 14px 'Geist';color:#e6edf7;margin-bottom:4px">Air vs sea by weight</div>
+        <div style="font:400 12px 'Geist';color:#8294b0;margin-bottom:18px">Share of total gross tonnage</div>
+        <div style="display:flex;align-items:center;gap:24px">
+          <div style="position:relative;width:140px;height:140px;flex-shrink:0">
+            <div style="width:140px;height:140px;border-radius:50%;background:conic-gradient(#4f8df9 0% {{ airPct }},#2cc4d6 {{ airPct }} 100%)"></div>
+            <div style="position:absolute;inset:16px;background:#101c30;border-radius:50%;display:flex;flex-direction:column;align-items:center;justify-content:center"><span style="font:600 24px 'Geist Mono';color:#e6edf7">{{ kWeight }}</span><span style="font:500 11px 'Geist';color:#8294b0">tonnes</span></div>
+          </div>
+          <div style="flex:1;display:flex;flex-direction:column;gap:14px">
+            <div><div style="display:flex;align-items:center;gap:8px;margin-bottom:5px"><span style="width:10px;height:10px;border-radius:3px;background:#4f8df9"></span><span style="font:500 13px 'Geist';color:#e6edf7">Air freight</span><span style="margin-left:auto;font:600 13px 'Geist Mono';color:#e6edf7">{{ airT }} t</span></div><div style="font:400 11px 'Geist';color:#5f7494;padding-left:18px">{{ airPct }} · {{ airShips }} shipments</div></div>
+            <div><div style="display:flex;align-items:center;gap:8px;margin-bottom:5px"><span style="width:10px;height:10px;border-radius:3px;background:#2cc4d6"></span><span style="font:500 13px 'Geist';color:#e6edf7">Ocean freight</span><span style="margin-left:auto;font:600 13px 'Geist Mono';color:#e6edf7">{{ seaT }} t</span></div><div style="font:400 11px 'Geist';color:#5f7494;padding-left:18px">{{ seaPct }} · {{ seaShips }} shipments</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:22px">
+      <div style="background:#101c30;border:1px solid #1c2c47;border-radius:16px;padding:22px">
+        <div style="font:600 14px 'Geist';color:#e6edf7;margin-bottom:4px">Carriers used</div>
+        <div style="font:400 12px 'Geist';color:#8294b0;margin-bottom:20px">By shipment count · {{ segLabel }}</div>
+        <div style="display:flex;flex-direction:column;gap:13px;min-height:40px">
+          <sc-for list="{{ carriers }}" as="c" hint-placeholder-count="6"><div style="display:flex;align-items:center;gap:12px"><span style="width:120px;font:500 12px 'Geist';color:#cdd9ec;flex-shrink:0;text-align:right;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ c.name }}</span><div style="flex:1;height:20px;background:#0c1424;border-radius:5px;overflow:hidden"><div style="width:{{ c.w }};height:100%;background:{{ c.color }};border-radius:5px"></div></div><span style="width:26px;font:600 12px 'Geist Mono';color:#e6edf7;flex-shrink:0">{{ c.count }}</span></div></sc-for>
+        </div>
+      </div>
+      <div style="background:#101c30;border:1px solid #1c2c47;border-radius:16px;padding:22px">
+        <div style="font:600 14px 'Geist';color:#e6edf7;margin-bottom:20px">Top trade lanes</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:22px">
+          <div><div style="font:600 11px 'Geist Mono';color:#2cc4d6;letter-spacing:.06em;margin-bottom:13px">INBOUND</div><div style="display:flex;flex-direction:column;gap:13px"><sc-for list="{{ lanesIn }}" as="l" hint-placeholder-count="4"><div><div style="font:500 12px 'Geist';color:#e6edf7">{{ l.name }}</div><div style="font:400 11px 'Geist';color:#8294b0;margin-top:2px">{{ l.label }}</div></div></sc-for></div></div>
+          <div><div style="font:600 11px 'Geist Mono';color:#4f8df9;letter-spacing:.06em;margin-bottom:13px">OUTBOUND</div><div style="display:flex;flex-direction:column;gap:13px"><sc-for list="{{ lanesOut }}" as="l" hint-placeholder-count="4"><div><div style="font:500 12px 'Geist';color:#e6edf7">{{ l.name }}</div><div style="font:400 11px 'Geist';color:#8294b0;margin-top:2px">{{ l.label }}</div></div></sc-for></div></div>
+        </div>
+      </div>
+    </div>
+    <div style="background:#101c30;border:1px solid #1c2c47;border-radius:16px;overflow:hidden">
+      <div style="padding:20px 22px;display:flex;align-items:center;gap:12px;border-bottom:1px solid #1c2c47"><div style="font:600 14px 'Geist';color:#e6edf7">Shipment ledger</div><div style="font:400 12px 'Geist';color:#5f7494">{{ rowsNote }}</div><div style="margin-left:auto;font:400 11px 'Geist Mono';color:#5f7494">{{ rowsCount }} records</div></div>
+      <div style="display:grid;grid-template-columns:64px 1.1fr 1.4fr 1.5fr 1.3fr 0.8fr 1fr;padding:11px 22px;border-bottom:1px solid #1c2c47;font:600 10px 'Geist';color:#5f7494;text-transform:uppercase;letter-spacing:.05em"><span>Mode</span><span>Carrier</span><span>Document</span><span>Cargo</span><span>Route</span><span style="text-align:right">Gross</span><span style="text-align:right">Status</span></div>
+      <sc-for list="{{ rows }}" as="r" hint-placeholder-count="8">
+        <div style="display:grid;grid-template-columns:64px 1.1fr 1.4fr 1.5fr 1.3fr 0.8fr 1fr;padding:13px 22px;border-bottom:1px solid #14223a;align-items:center" style-hover="background:#13233c">
+          <span><span style="font:600 9px 'Geist Mono';color:{{ r.modeColor }};background:{{ r.modeBg }};padding:3px 7px;border-radius:5px">{{ r.mode }}</span></span>
+          <span style="font:500 12px 'Geist';color:#e6edf7">{{ r.carrier }}</span>
+          <span style="font:400 11px 'Geist Mono';color:#8294b0">{{ r.doc }}</span>
+          <span style="font:400 12px 'Geist';color:#cdd9ec;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;padding-right:10px">{{ r.cargo }}</span>
+          <span style="font:400 12px 'Geist';color:#cdd9ec">{{ r.route }}</span>
+          <span style="font:500 12px 'Geist Mono';color:#e6edf7;text-align:right">{{ r.weight }}</span>
+          <span style="text-align:right"><span style="font:600 10px 'Geist';color:{{ r.statusColor }};background:{{ r.statusBg }};padding:4px 9px;border-radius:6px;white-space:nowrap">{{ r.status }}</span></span>
+        </div>
+      </sc-for>
+      <sc-if value="{{ noRows }}"><div style="padding:34px;text-align:center;font:400 13px 'Geist';color:#5f7494">No shipments yet — add them in the <b style="color:#8294b0">Data Entry</b> tab.</div></sc-if>
+    </div>
+  </div>
+  </sc-if>
+
+  <!-- ===== DATA ENTRY ===== -->
+  <sc-if value="{{ showData }}">
+  <div style="max-width:1340px;margin:0 auto;padding:26px 36px 60px;display:flex;flex-direction:column;gap:22px">
+    <div style="display:flex;align-items:center;gap:12px">
+      <div style="font:600 15px 'Geist';color:#e6edf7">Data entry</div>
+      <div style="margin-left:auto;display:flex;align-items:center;gap:10px">
+        <div style="font:400 12px 'Geist';color:#5f7494">Auto-saved · flows live into Overview</div>
+        <button onClick="{{ exportShipsCSV }}" style="appearance:none;border:1px solid #1f2d44;cursor:pointer;background:#0f1b30;color:#aebbd2;font:500 12px 'Geist';padding:7px 13px;border-radius:8px;display:flex;align-items:center;gap:6px" style-hover="border-color:#2cc4d6;color:#e6edf7"><svg width="12" height="12" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.3"><path d="M2 10v2a1 1 0 001 1h8a1 1 0 001-1v-2M7 2v7M4.5 6.5L7 9l2.5-2.5"></path></svg>Export CSV</button>
+      </div>
+    </div>
+    <div style="display:grid;grid-template-columns:1.15fr 0.85fr;gap:22px;align-items:start">
+      <div style="background:#101c30;border:1px solid {{ shipFormBorder }};border-radius:16px;padding:22px">
+        <div style="font:600 14px 'Geist';color:#e6edf7;margin-bottom:3px">{{ shipFormTitle }}</div>
+        <div style="font:400 12px 'Geist';color:#8294b0;margin-bottom:18px">{{ shipFormSub }}</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:13px">
+          <div><label style="font:500 11px 'Geist';color:#8294b0;margin-bottom:6px;display:block">Direction</label><select value="{{ sDir }}" onChange="{{ onSDir }}" style="width:100%;box-sizing:border-box;background:#0c1424;border:1px solid #1f2d44;border-radius:8px;padding:9px 11px;color:#e6edf7;font:500 13px 'Geist';outline:none"><option>Inbound</option><option>Outbound</option></select></div>
+          <div><label style="font:500 11px 'Geist';color:#8294b0;margin-bottom:6px;display:block">Mode</label><select value="{{ sMode }}" onChange="{{ onSMode }}" style="width:100%;box-sizing:border-box;background:#0c1424;border:1px solid #1f2d44;border-radius:8px;padding:9px 11px;color:#e6edf7;font:500 13px 'Geist';outline:none"><option>Sea</option><option>Air</option></select></div>
+          <div><label style="font:500 11px 'Geist';color:#8294b0;margin-bottom:6px;display:block">Status</label><select value="{{ sStatus }}" onChange="{{ onSStatus }}" style="width:100%;box-sizing:border-box;background:#0c1424;border:1px solid #1f2d44;border-radius:8px;padding:9px 11px;color:#e6edf7;font:500 13px 'Geist';outline:none"><option>Plan</option><option>Departed from origin</option><option>Arrived at port</option><option>Clearance</option><option>Transit</option><option>Moving to LOP</option><option>Delivered</option><option>Departed</option></select></div>
+          <div><label style="font:500 11px 'Geist';color:#8294b0;margin-bottom:6px;display:block">Carrier / line</label><input value="{{ sCarrier }}" onChange="{{ onSCarrier }}" placeholder="Qatar Airways" style="width:100%;box-sizing:border-box;background:#0c1424;border:1px solid #1f2d44;border-radius:8px;padding:9px 11px;color:#e6edf7;font:500 13px 'Geist';outline:none"></div>
+          <div style="grid-column:span 2"><label style="font:500 11px 'Geist';color:#8294b0;margin-bottom:6px;display:block">Document (MAWB / B/L)</label><input value="{{ sDoc }}" onChange="{{ onSDoc }}" placeholder="157-05734131" style="width:100%;box-sizing:border-box;background:#0c1424;border:1px solid #1f2d44;border-radius:8px;padding:9px 11px;color:#e6edf7;font:500 13px 'Geist Mono';outline:none"></div>
+          <div style="grid-column:span 2"><label style="font:500 11px 'Geist';color:#8294b0;margin-bottom:6px;display:block">Shipper / cargo owner</label><input value="{{ sShipper }}" onChange="{{ onSShipper }}" placeholder="DORNA Sports" style="width:100%;box-sizing:border-box;background:#0c1424;border:1px solid #1f2d44;border-radius:8px;padding:9px 11px;color:#e6edf7;font:500 13px 'Geist';outline:none"></div>
+          <div><label style="font:500 11px 'Geist';color:#8294b0;margin-bottom:6px;display:block">Team</label><input value="{{ sTeam }}" onChange="{{ onSTeam }}" placeholder="Ducati" style="width:100%;box-sizing:border-box;background:#0c1424;border:1px solid #1f2d44;border-radius:8px;padding:9px 11px;color:#e6edf7;font:500 13px 'Geist';outline:none"></div>
+          <div style="grid-column:span 3"><label style="font:500 11px 'Geist';color:#8294b0;margin-bottom:6px;display:block">Commodity</label><input value="{{ sCommodity }}" onChange="{{ onSCommodity }}" placeholder="Motorbikes &amp; spares" style="width:100%;box-sizing:border-box;background:#0c1424;border:1px solid #1f2d44;border-radius:8px;padding:9px 11px;color:#e6edf7;font:500 13px 'Geist';outline:none"></div>
+          <div><label style="font:500 11px 'Geist';color:#8294b0;margin-bottom:6px;display:block">Origin (POL)</label><input value="{{ sPol }}" onChange="{{ onSPol }}" placeholder="Tokyo" style="width:100%;box-sizing:border-box;background:#0c1424;border:1px solid #1f2d44;border-radius:8px;padding:9px 11px;color:#e6edf7;font:500 13px 'Geist';outline:none"></div>
+          <div><label style="font:500 11px 'Geist';color:#8294b0;margin-bottom:6px;display:block">Destination (POD)</label><input value="{{ sPod }}" onChange="{{ onSPod }}" placeholder="Lombok" style="width:100%;box-sizing:border-box;background:#0c1424;border:1px solid #1f2d44;border-radius:8px;padding:9px 11px;color:#e6edf7;font:500 13px 'Geist';outline:none"></div>
+          <div><label style="font:500 11px 'Geist';color:#8294b0;margin-bottom:6px;display:block">Gross weight (kg)</label><input value="{{ sGross }}" onChange="{{ onSGross }}" placeholder="0" inputmode="decimal" style="width:100%;box-sizing:border-box;background:#0c1424;border:1px solid #1f2d44;border-radius:8px;padding:9px 11px;color:#e6edf7;font:600 13px 'Geist Mono';outline:none"></div>
+          <div><label style="font:500 11px 'Geist';color:#8294b0;margin-bottom:6px;display:block">Containers (40′)</label><input value="{{ sCont }}" onChange="{{ onSCont }}" placeholder="0" inputmode="numeric" style="width:100%;box-sizing:border-box;background:#0c1424;border:1px solid #1f2d44;border-radius:8px;padding:9px 11px;color:#e6edf7;font:600 13px 'Geist Mono';outline:none"></div>
+          <div><label style="font:500 11px 'Geist';color:#8294b0;margin-bottom:6px;display:block">Packages</label><input value="{{ sPkgs }}" onChange="{{ onSPkgs }}" placeholder="0" inputmode="numeric" style="width:100%;box-sizing:border-box;background:#0c1424;border:1px solid #1f2d44;border-radius:8px;padding:9px 11px;color:#e6edf7;font:600 13px 'Geist Mono';outline:none"></div>
+        </div>
+        <sc-if value="{{ editingShip }}">
+          <div style="display:flex;gap:10px;margin-top:16px"><button onClick="{{ saveEditShip }}" style="flex:1;appearance:none;border:none;cursor:pointer;background:linear-gradient(135deg,#34d399,#2cc4d6);color:#0a111f;font:600 14px 'Geist';padding:12px;border-radius:10px">✓ Save changes</button><button onClick="{{ cancelEditShip }}" style="appearance:none;border:1px solid #1f2d44;cursor:pointer;background:#0c1424;color:#aebbd2;font:600 14px 'Geist';padding:12px 18px;border-radius:10px">Cancel</button></div>
+          <div style="font:400 11px 'Geist';color:#f0a93b;margin-top:9px;text-align:center">Editing: {{ editShipDoc }}</div>
+        </sc-if>
+        <sc-if value="{{ notEditingShip }}"><button onClick="{{ addShipment }}" style="margin-top:16px;width:100%;appearance:none;border:none;cursor:pointer;background:linear-gradient(135deg,#4f8df9,#2cc4d6);color:#0a111f;font:600 14px 'Geist';padding:12px;border-radius:10px">＋ Add shipment</button></sc-if>
+      </div>
+      <div style="background:#101c30;border:1px solid #1c2c47;border-radius:16px;padding:22px">
+        <div style="font:600 14px 'Geist';color:#e6edf7;margin-bottom:3px">Upload documents</div>
+        <div style="font:400 12px 'Geist';color:#8294b0;margin-bottom:18px">B/L, AWB, invoices, customs &amp; packing lists</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:13px;margin-bottom:14px">
+          <div><label style="font:500 11px 'Geist';color:#8294b0;margin-bottom:6px;display:block">Document type</label><select value="{{ dType }}" onChange="{{ onDType }}" style="width:100%;box-sizing:border-box;background:#0c1424;border:1px solid #1f2d44;border-radius:8px;padding:9px 11px;color:#e6edf7;font:500 13px 'Geist';outline:none"><option>Bill of Lading</option><option>Air Waybill</option><option>Commercial Invoice</option><option>Packing List</option><option>Customs (PIB/PEB)</option><option>Certificate of Origin</option><option>Insurance</option><option>Other</option></select></div>
+          <div><label style="font:500 11px 'Geist';color:#8294b0;margin-bottom:6px;display:block">Link to shipment</label><select value="{{ dRef }}" onChange="{{ onDRef }}" style="width:100%;box-sizing:border-box;background:#0c1424;border:1px solid #1f2d44;border-radius:8px;padding:9px 11px;color:#e6edf7;font:500 13px 'Geist Mono';outline:none"><option value="">— none —</option><sc-for list="{{ shipRefs }}" as="o" hint-placeholder-count="3"><option value="{{ o }}">{{ o }}</option></sc-for></select></div>
+        </div>
+        <label onDragOver="{{ onDragOver }}" onDragLeave="{{ onDragLeave }}" onDrop="{{ onDrop }}" style="display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;border:1.5px dashed {{ dropBorder }};border-radius:12px;padding:26px 16px;cursor:pointer;background:{{ dropBg }};transition:all .15s">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#4f8df9" stroke-width="1.5"><path d="M12 16V4M12 4l-4 4M12 4l4 4"></path><path d="M4 16v2a2 2 0 002 2h12a2 2 0 002-2v-2"></path></svg>
+          <div style="font:500 13px 'Geist';color:#cdd9ec">Drag &amp; drop files here</div>
+          <div style="font:400 11px 'Geist';color:#5f7494">or click to browse · PDF, JPG, PNG, XLSX</div>
+          <input type="file" multiple="" accept=".pdf,image/*,.doc,.docx,.xls,.xlsx" onChange="{{ onFiles }}" style="display:none">
+        </label>
+        <div style="display:flex;justify-content:space-between;align-items:center;margin:18px 0 12px"><span style="font:600 12px 'Geist';color:#cdd9ec">Uploaded</span><span style="font:400 11px 'Geist Mono';color:#5f7494">{{ docCount }} files</span></div>
+        <div style="display:flex;flex-direction:column;gap:9px;max-height:300px;overflow-y:auto">
+          <sc-for list="{{ docs }}" as="d" hint-placeholder-count="3">
+            <div style="display:flex;align-items:center;gap:11px;background:#0c1424;border:1px solid #1c2c47;border-radius:10px;padding:10px">
+              <span style="width:38px;height:38px;border-radius:8px;background:{{ d.iconBg }};display:flex;align-items:center;justify-content:center;font:700 10px 'Geist Mono';color:{{ d.iconColor }};flex-shrink:0">{{ d.icon }}</span>
+              <div style="min-width:0;flex:1"><div style="font:500 12px 'Geist';color:#e6edf7;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ d.name }}</div><div style="font:400 11px 'Geist';color:#8294b0;margin-top:2px">{{ d.meta }}</div></div>
+              <a href="{{ d.href }}" target="_blank" style="text-decoration:none;font:500 11px 'Geist';color:#4f8df9;padding:4px 8px;border-radius:6px" style-hover="background:rgba(79,141,249,.12)">View</a>
+              <button onClick="{{ d.onDelete }}" style="appearance:none;border:none;background:none;cursor:pointer;color:#5f7494;font:400 16px 'Geist';padding:2px 5px;border-radius:5px" style-hover="color:#ff6f59;background:rgba(255,111,89,.1)">×</button>
+            </div>
+          </sc-for>
+          <sc-if value="{{ noDocs }}"><div style="padding:18px;text-align:center;font:400 12px 'Geist';color:#5f7494">No documents uploaded yet.</div></sc-if>
+        </div>
+      </div>
+    </div>
+    <div style="background:#101c30;border:1px solid #1c2c47;border-radius:16px;overflow:hidden">
+      <div style="padding:18px 22px;display:flex;align-items:center;gap:12px;border-bottom:1px solid #1c2c47"><div style="font:600 14px 'Geist';color:#e6edf7">Entered shipments</div><div style="margin-left:auto;font:400 11px 'Geist Mono';color:#5f7494">{{ allShipCount }} total · newest first</div></div>
+      <div style="display:grid;grid-template-columns:74px 64px 1.1fr 1.3fr 1.4fr 0.8fr 1fr 64px;padding:11px 22px;border-bottom:1px solid #1c2c47;font:600 10px 'Geist';color:#5f7494;text-transform:uppercase;letter-spacing:.05em"><span>Dir</span><span>Mode</span><span>Carrier</span><span>Document</span><span>Route</span><span style="text-align:right">Gross</span><span style="text-align:right">Status</span><span></span></div>
+      <sc-for list="{{ manageRows }}" as="r" hint-placeholder-count="6">
+        <div style="display:grid;grid-template-columns:74px 64px 1.1fr 1.3fr 1.4fr 0.8fr 1fr 64px;padding:12px 22px;border-bottom:1px solid #14223a;align-items:center" style-hover="background:#13233c">
+          <span><span style="font:600 9px 'Geist';color:{{ r.dirColor }};background:{{ r.dirBg }};padding:3px 7px;border-radius:5px">{{ r.dirLabel }}</span></span>
+          <span><span style="font:600 9px 'Geist Mono';color:{{ r.modeColor }};background:{{ r.modeBg }};padding:3px 7px;border-radius:5px">{{ r.mode }}</span></span>
+          <span style="font:500 12px 'Geist';color:#e6edf7">{{ r.carrier }}</span>
+          <span style="font:400 11px 'Geist Mono';color:#8294b0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;padding-right:8px">{{ r.doc }}</span>
+          <span style="font:400 12px 'Geist';color:#cdd9ec">{{ r.route }}</span>
+          <span style="font:500 12px 'Geist Mono';color:#e6edf7;text-align:right">{{ r.weight }}</span>
+          <span style="text-align:right"><span style="font:600 10px 'Geist';color:{{ r.statusColor }};background:{{ r.statusBg }};padding:4px 9px;border-radius:6px;white-space:nowrap">{{ r.status }}</span></span>
+          <span style="display:flex;justify-content:flex-end;gap:4px"><button onClick="{{ r.onEdit }}" style="appearance:none;border:1px solid #1f2d44;background:none;cursor:pointer;color:#8294b0;font:500 11px 'Geist';padding:3px 8px;border-radius:6px" style-hover="color:#4f8df9;border-color:#4f8df9">Edit</button><button onClick="{{ r.onDelete }}" style="appearance:none;border:none;background:none;cursor:pointer;color:#5f7494;font:400 16px 'Geist';padding:2px 5px;border-radius:5px" style-hover="color:#ff6f59;background:rgba(255,111,89,.1)">×</button></span>
+        </div>
+      </sc-for>
+      <sc-if value="{{ noShip }}"><div style="padding:30px;text-align:center;font:400 13px 'Geist';color:#5f7494">No shipments entered yet.</div></sc-if>
+    </div>
+  </div>
+  </sc-if>
+
+  <!-- ===== COST CONTROL ===== -->
+  <sc-if value="{{ showCost }}">
+  <div style="max-width:1340px;margin:0 auto;padding:26px 36px 60px">
+
+    <!-- LOCK SCREEN -->
+    <sc-if value="{{ locked }}">
+    <div style="display:flex;align-items:center;justify-content:center;min-height:560px">
+      <div style="width:380px;background:#101c30;border:1px solid #1c2c47;border-radius:18px;padding:34px 30px;text-align:center">
+        <div style="width:56px;height:56px;border-radius:14px;background:rgba(255,111,89,.12);border:1px solid rgba(255,111,89,.25);display:flex;align-items:center;justify-content:center;margin:0 auto 18px"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#ff8a76" stroke-width="1.6"><rect x="4" y="10.5" width="16" height="10.5" rx="2.2" fill="rgba(255,138,118,.18)"></rect><path d="M7 10.5V7.5a5 5 0 0110 0v3"></path><circle cx="12" cy="15.5" r="1.4" fill="#ff8a76" stroke="none"></circle></svg></div>
+        <div style="font:600 17px 'Geist';color:#e6edf7">Cost Control — Internal</div>
+        <div style="font:400 13px 'Geist';color:#8294b0;margin-top:7px;line-height:1.5">Restricted to the internal finance &amp; operations team.</div>
+        <input type="password" value="{{ pin }}" onChange="{{ onPin }}" onKeyDown="{{ onPinKey }}" placeholder="Team passcode" style="margin-top:20px;width:100%;box-sizing:border-box;background:#0c1424;border:1px solid {{ pinBorder }};border-radius:10px;padding:12px 14px;color:#e6edf7;font:500 15px 'Geist Mono';text-align:center;letter-spacing:.3em;outline:none">
+        <sc-if value="{{ pinError }}"><div style="font:500 12px 'Geist';color:#ff6f59;margin-top:9px">Incorrect passcode — try again</div></sc-if>
+        <button onClick="{{ submitPin }}" style="margin-top:16px;width:100%;appearance:none;border:none;cursor:pointer;background:linear-gradient(135deg,#4f8df9,#2cc4d6);color:#0a111f;font:600 14px 'Geist';padding:12px;border-radius:10px">Unlock</button>
+
+      </div>
+    </div>
+    </sc-if>
+
+    <!-- UNLOCKED -->
+    <sc-if value="{{ unlocked }}">
+    <div style="display:flex;flex-direction:column;gap:22px">
+
+      <!-- top toolbar -->
+      <div style="display:flex;align-items:center;gap:12px">
+        <div style="font:600 15px 'Geist';color:#e6edf7">Cost control</div>
+        <span style="font:600 10px 'Geist Mono';letter-spacing:.04em;background:rgba(255,111,89,.13);color:#ff8a76;padding:3px 8px;border-radius:6px">INTERNAL · LIVE</span>
+        <div style="margin-left:auto;display:flex;align-items:center;gap:10px">
+          <button onClick="{{ exportExpCSV }}" style="appearance:none;border:1px solid #1f2d44;cursor:pointer;background:#0f1b30;color:#aebbd2;font:500 12px 'Geist';padding:7px 13px;border-radius:8px;display:flex;align-items:center;gap:6px" style-hover="border-color:#2cc4d6;color:#e6edf7"><svg width="12" height="12" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.3"><path d="M2 10v2a1 1 0 001 1h8a1 1 0 001-1v-2M7 2v7M4.5 6.5L7 9l2.5-2.5"></path></svg>Export CSV</button>
+          <button onClick="{{ lock }}" style="appearance:none;cursor:pointer;background:#15233c;border:1px solid #1f2d44;color:#aebbd2;font:500 12px 'Geist';padding:7px 13px;border-radius:8px;display:flex;align-items:center;gap:6px"><svg width="11" height="11" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.3"><rect x="2" y="5.2" width="8" height="5.3" rx="1.2" fill="currentColor" stroke="none"></rect><path d="M3.4 5.2V3.6a2.6 2.6 0 015.2 0v1.6"></path></svg>Lock</button>
+        </div>
+      </div>
+
+      <!-- overall KPIs -->
+      <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:14px">
+        <div style="background:linear-gradient(160deg,#13233c,#101c30);border:1px solid #1c2c47;border-radius:14px;padding:18px"><div style="font:500 11px 'Geist';color:#8294b0;text-transform:uppercase;letter-spacing:.05em">Total budget</div><div style="font:600 24px 'Geist Mono';color:#e6edf7;margin-top:8px">{{ cTotalBudget }}</div><div style="font:400 12px 'Geist';color:#8294b0;margin-top:4px">all cost types</div></div>
+        <div style="background:linear-gradient(160deg,#13233c,#101c30);border:1px solid #1c2c47;border-radius:14px;padding:18px"><div style="font:500 11px 'Geist';color:#8294b0;text-transform:uppercase;letter-spacing:.05em">Total committed</div><div style="font:600 24px 'Geist Mono';color:#2cc4d6;margin-top:8px">{{ cTotalSpent }}</div><div style="font:400 12px 'Geist';color:#8294b0;margin-top:4px">{{ cTotalPct }}% utilized</div></div>
+        <div style="background:linear-gradient(160deg,#13233c,#101c30);border:1px solid #1c2c47;border-radius:14px;padding:18px"><div style="font:500 11px 'Geist';color:#8294b0;text-transform:uppercase;letter-spacing:.05em">Remaining</div><div style="font:600 24px 'Geist Mono';color:{{ cTotalRemColor }};margin-top:8px">{{ cTotalRem }}</div><div style="font:400 12px 'Geist';color:#8294b0;margin-top:4px">budget headroom</div></div>
+        <div style="background:linear-gradient(160deg,#13233c,#101c30);border:1px solid #1c2c47;border-radius:14px;padding:18px"><div style="font:500 11px 'Geist';color:#8294b0;text-transform:uppercase;letter-spacing:.05em">Outstanding</div><div style="font:600 24px 'Geist Mono';color:#f0a93b;margin-top:8px">{{ cTotalOut }}</div><div style="font:400 12px 'Geist';color:#8294b0;margin-top:4px">invoiced · not paid</div></div>
+        <div style="background:linear-gradient(160deg,#13233c,#101c30);border:1px solid #1c2c47;border-radius:14px;padding:18px"><div style="font:500 11px 'Geist';color:#8294b0;text-transform:uppercase;letter-spacing:.05em">Transactions</div><div style="font:600 24px 'Geist Mono';color:#e6edf7;margin-top:8px">{{ cTotalCount }}</div><div style="font:400 12px 'Geist';color:#8294b0;margin-top:4px">expense entries</div></div>
+      </div>
+
+      <!-- 3-type overview strip -->
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:18px">
+        <sc-for list="{{ typeOverview }}" as="t" hint-placeholder-count="3">
+          <div style="background:#101c30;border:1px solid #1c2c47;border-radius:14px;padding:18px">
+            <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px"><span style="width:9px;height:9px;border-radius:3px;background:{{ t.color }}"></span><span style="font:600 13px 'Geist';color:#e6edf7">{{ t.name }}</span><span style="margin-left:auto;font:500 11px 'Geist Mono';color:#5f7494">{{ t.count }} entries</span></div>
+            <div style="font:600 22px 'Geist Mono';color:#e6edf7">{{ t.committed }}</div>
+            <div style="font:400 11px 'Geist';color:#8294b0;margin-top:2px">of {{ t.budget }} budget · {{ t.pct }}%</div>
+            <div style="height:6px;background:#0c1424;border-radius:4px;overflow:hidden;margin-top:10px"><div style="width:{{ t.barW }};height:100%;background:{{ t.color }}"></div></div>
+          </div>
+        </sc-for>
+      </div>
+
+      <!-- SUB-TABS -->
+      <div style="display:flex;gap:4px;background:#101c30;border:1px solid #1c2c47;border-radius:13px;padding:5px;width:fit-content">
+        <button style="{{ subVendorStyle }}" onClick="{{ selVendor }}">Vendor</button>
+        <button style="{{ subIndirectStyle }}" onClick="{{ selIndirect }}">Indirect Cost</button>
+        <button style="{{ subTunaiStyle }}" onClick="{{ selTunai }}">Tunai / Cash</button>
+      </div>
+
+      <!-- sub-KPIs -->
+      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:14px">
+        <div style="background:#101c30;border:1px solid #1c2c47;border-radius:14px;padding:18px">
+          <div style="font:500 11px 'Geist';color:#8294b0;text-transform:uppercase;letter-spacing:.05em;margin-bottom:8px">{{ subLabel }} budget</div>
+          <input type="number" value="{{ subBudgetVal }}" onChange="{{ onSubBudget }}" style="width:100%;box-sizing:border-box;background:transparent;border:none;border-bottom:1px solid #1f2d44;color:#e6edf7;font:600 22px 'Geist Mono';outline:none;padding:0 0 4px">
+          <div style="font:400 11px 'Geist';color:#5f7494;margin-top:5px">editable · USD</div>
+        </div>
+        <div style="background:#101c30;border:1px solid #1c2c47;border-radius:14px;padding:18px"><div style="font:500 11px 'Geist';color:#8294b0;text-transform:uppercase;letter-spacing:.05em">Committed</div><div style="font:600 22px 'Geist Mono';color:{{ subColor }};margin-top:8px">{{ subSpent }}</div><div style="font:400 11px 'Geist';color:#8294b0;margin-top:4px">{{ subPct }}% of budget</div></div>
+        <div style="background:#101c30;border:1px solid #1c2c47;border-radius:14px;padding:18px"><div style="font:500 11px 'Geist';color:#8294b0;text-transform:uppercase;letter-spacing:.05em">Remaining</div><div style="font:600 22px 'Geist Mono';color:{{ subRemColor }};margin-top:8px">{{ subRem }}</div><div style="font:400 11px 'Geist';color:#8294b0;margin-top:4px">this type</div></div>
+        <div style="background:#101c30;border:1px solid #1c2c47;border-radius:14px;padding:18px"><div style="font:500 11px 'Geist';color:#8294b0;text-transform:uppercase;letter-spacing:.05em">Transactions</div><div style="font:600 22px 'Geist Mono';color:#e6edf7;margin-top:8px">{{ subCount }}</div><div style="font:400 11px 'Geist';color:#8294b0;margin-top:4px">{{ subLabel }} entries</div></div>
+      </div>
+
+      <!-- sub budget bar -->
+      <div style="background:#101c30;border:1px solid #1c2c47;border-radius:16px;padding:18px 22px">
+        <div style="display:flex;justify-content:space-between;font:500 12px 'Geist';margin-bottom:9px"><span style="color:#aebbd2">{{ subLabel }} budget utilisation</span><span style="font-family:'Geist Mono';color:#8294b0">{{ subSpent }} / {{ subBudgetFmt }}</span></div>
+        <div style="height:12px;background:#0c1424;border-radius:7px;overflow:hidden"><div style="width:{{ subBarW }};height:100%;background:{{ subColor }}"></div></div>
+      </div>
+
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:22px;align-items:start">
+        <!-- FORM -->
+        <div style="background:#101c30;border:1px solid {{ expFormBorder }};border-radius:16px;padding:22px">
+          <div style="display:flex;align-items:center;gap:9px;margin-bottom:3px"><span style="width:9px;height:9px;border-radius:3px;background:{{ subColor }}"></span><div style="font:600 14px 'Geist';color:#e6edf7">{{ expFormTitle }}</div></div>
+          <div style="font:400 12px 'Geist';color:#8294b0;margin-bottom:18px">{{ expFormSub }}</div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:13px">
+            <div><label style="font:500 11px 'Geist';color:#8294b0;margin-bottom:6px;display:block">Date</label><input type="date" value="{{ formDate }}" onChange="{{ onDate }}" style="width:100%;box-sizing:border-box;background:#0c1424;border:1px solid #1f2d44;border-radius:8px;padding:9px 11px;color:#e6edf7;font:500 13px 'Geist';outline:none"></div>
+            <div><label style="font:500 11px 'Geist';color:#8294b0;margin-bottom:6px;display:block">Category</label><select value="{{ formCategory }}" onChange="{{ onCategory }}" style="width:100%;box-sizing:border-box;background:#0c1424;border:1px solid #1f2d44;border-radius:8px;padding:9px 11px;color:#e6edf7;font:500 13px 'Geist';outline:none"><sc-for list="{{ subCatOptions }}" as="o" hint-placeholder-count="4"><option value="{{ o }}">{{ o }}</option></sc-for></select></div>
+            <div style="grid-column:span 2"><label style="font:500 11px 'Geist';color:#8294b0;margin-bottom:6px;display:block">Vendor / payee</label><input value="{{ formVendor }}" onChange="{{ onVendor }}" placeholder="e.g. Qatar Airways Cargo" style="width:100%;box-sizing:border-box;background:#0c1424;border:1px solid #1f2d44;border-radius:8px;padding:9px 11px;color:#e6edf7;font:500 13px 'Geist';outline:none"></div>
+            <div><label style="font:500 11px 'Geist';color:#8294b0;margin-bottom:6px;display:block">Shipment ref</label><input value="{{ formRef }}" onChange="{{ onRef }}" placeholder="MAWB / B/L" style="width:100%;box-sizing:border-box;background:#0c1424;border:1px solid #1f2d44;border-radius:8px;padding:9px 11px;color:#e6edf7;font:500 13px 'Geist Mono';outline:none"></div>
+            <div><label style="font:500 11px 'Geist';color:#8294b0;margin-bottom:6px;display:block">Status</label><select value="{{ formStatus }}" onChange="{{ onStatus }}" style="width:100%;box-sizing:border-box;background:#0c1424;border:1px solid #1f2d44;border-radius:8px;padding:9px 11px;color:#e6edf7;font:500 13px 'Geist';outline:none"><option>Invoiced</option><option>Paid</option></select></div>
+            <div><label style="font:500 11px 'Geist';color:#8294b0;margin-bottom:6px;display:block">Amount</label><input value="{{ formAmount }}" onChange="{{ onAmount }}" onKeyDown="{{ onAmountKey }}" placeholder="0" inputmode="decimal" style="width:100%;box-sizing:border-box;background:#0c1424;border:1px solid #1f2d44;border-radius:8px;padding:9px 11px;color:#e6edf7;font:600 14px 'Geist Mono';outline:none"></div>
+            <div><label style="font:500 11px 'Geist';color:#8294b0;margin-bottom:6px;display:block">Currency</label><div style="background:#0c1424;border:1px solid #1f2d44;border-radius:8px;padding:9px 11px;color:#8294b0;font:600 13px 'Geist Mono'">IDR — Rupiah</div></div>
+          </div>
+          <sc-if value="{{ editingExp }}">
+            <div style="display:flex;gap:10px;margin-top:16px"><button onClick="{{ saveEditExp }}" style="flex:1;appearance:none;border:none;cursor:pointer;background:linear-gradient(135deg,#34d399,#2cc4d6);color:#0a111f;font:600 14px 'Geist';padding:12px;border-radius:10px">✓ Save changes</button><button onClick="{{ cancelEditExp }}" style="appearance:none;border:1px solid #1f2d44;cursor:pointer;background:#0c1424;color:#aebbd2;font:600 14px 'Geist';padding:12px 18px;border-radius:10px">Cancel</button></div>
+            <div style="font:400 11px 'Geist';color:#f0a93b;margin-top:9px;text-align:center">Editing: {{ editExpRef }}</div>
+          </sc-if>
+          <sc-if value="{{ notEditingExp }}"><button onClick="{{ addExpense }}" style="margin-top:16px;width:100%;appearance:none;border:none;cursor:pointer;background:{{ subColor }};color:#0a111f;font:600 14px 'Geist';padding:12px;border-radius:10px">＋ Add {{ subLabel }} expense</button></sc-if>
+          <div style="font:400 11px 'Geist';color:#5f7494;margin-top:10px;text-align:center">Semua biaya dalam Rupiah (IDR)</div>
+          <div style="border-top:1px solid #1c2c47;margin-top:18px;padding-top:18px">
+            <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px"><div style="font:600 12px 'Geist';color:#e6edf7">Dokumen pendukung</div><span style="font:400 11px 'Geist Mono';color:#5f7494;margin-left:auto">{{ costDocCount }} files</span></div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px">
+              <div><label style="font:500 11px 'Geist';color:#8294b0;margin-bottom:5px;display:block">Tipe dokumen</label><select value="{{ cdType }}" onChange="{{ onCDType }}" style="width:100%;box-sizing:border-box;background:#0c1424;border:1px solid #1f2d44;border-radius:8px;padding:8px 10px;color:#e6edf7;font:500 12px 'Geist';outline:none"><option>Invoice</option><option>Kwitansi</option><option>Bukti bayar</option><option>Kontrak / SPK</option><option>Purchase Order</option><option>Quotation</option><option>Lainnya</option></select></div>
+              <div><label style="font:500 11px 'Geist';color:#8294b0;margin-bottom:5px;display:block">Link ke pengeluaran</label><select value="{{ cdRef }}" onChange="{{ onCDRef }}" style="width:100%;box-sizing:border-box;background:#0c1424;border:1px solid #1f2d44;border-radius:8px;padding:8px 10px;color:#e6edf7;font:500 12px 'Geist Mono';outline:none"><option value="">— none —</option><sc-for list="{{ costExpRefs }}" as="o" hint-placeholder-count="2"><option value="{{ o }}">{{ o }}</option></sc-for></select></div>
+            </div>
+            <label onDragOver="{{ onCostDragOver }}" onDragLeave="{{ onCostDragLeave }}" onDrop="{{ onCostDrop }}" style="display:flex;align-items:center;gap:10px;border:1.5px dashed {{ costDropBorder }};border-radius:10px;padding:14px 16px;cursor:pointer;background:{{ costDropBg }};transition:all .15s">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#f0a93b" stroke-width="1.5"><path d="M12 16V4M12 4l-4 4M12 4l4 4"/><path d="M4 16v2a2 2 0 002 2h12a2 2 0 002-2v-2"/></svg>
+              <div><div style="font:500 12px 'Geist';color:#cdd9ec">Drag & drop atau klik untuk upload</div><div style="font:400 10px 'Geist';color:#5f7494;margin-top:2px">PDF, JPG, PNG, XLSX</div></div>
+              <input type="file" multiple accept=".pdf,image/*,.doc,.docx,.xls,.xlsx" onChange="{{ onCostFiles }}" style="display:none">
+            </label>
+            <div style="display:flex;flex-direction:column;gap:8px;margin-top:12px;max-height:220px;overflow-y:auto">
+              <sc-for list="{{ costDocs }}" as="d" hint-placeholder-count="2">
+                <div style="display:flex;align-items:center;gap:9px;background:#0c1424;border:1px solid #1c2c47;border-radius:9px;padding:9px">
+                  <span style="width:32px;height:32px;border-radius:7px;background:{{ d.iconBg }};display:flex;align-items:center;justify-content:center;font:700 9px 'Geist Mono';color:{{ d.iconColor }};flex-shrink:0">{{ d.icon }}</span>
+                  <div style="min-width:0;flex:1"><div style="font:500 11px 'Geist';color:#e6edf7;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ d.name }}</div><div style="font:400 10px 'Geist';color:#8294b0;margin-top:1px">{{ d.meta }}</div></div>
+                  <a href="{{ d.href }}" target="_blank" style="text-decoration:none;font:500 10px 'Geist';color:#4f8df9;padding:3px 7px;border-radius:5px" style-hover="background:rgba(79,141,249,.12)">View</a>
+                  <button onClick="{{ d.onDelete }}" style="appearance:none;border:none;background:none;cursor:pointer;color:#5f7494;font:400 15px 'Geist';padding:1px 4px;border-radius:4px" style-hover="color:#ff6f59">×</button>
+                </div>
+              </sc-for>
+              <sc-if value="{{ noCostDocs }}"><div style="padding:10px;text-align:center;font:400 11px 'Geist';color:#5f7494">Belum ada dokumen untuk {{ subLabel }}.</div></sc-if>
+            </div>
+          </div>
+        </div>
+
+        <!-- BREAKDOWN -->
+        <div style="background:#101c30;border:1px solid #1c2c47;border-radius:16px;padding:22px">
+          <div style="font:600 14px 'Geist';color:#e6edf7;margin-bottom:3px">{{ subLabel }} — spend by category</div>
+          <div style="font:400 12px 'Geist';color:#8294b0;margin-bottom:20px">Live breakdown · USD equivalent</div>
+          <div style="display:flex;flex-direction:column;gap:14px;min-height:40px">
+            <sc-for list="{{ subBreakdown }}" as="b" hint-placeholder-count="4">
+              <div>
+                <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px"><span style="width:9px;height:9px;border-radius:3px;background:{{ b.color }}"></span><span style="font:500 12px 'Geist';color:#cdd9ec">{{ b.name }}</span><span style="margin-left:auto;font:600 12px 'Geist Mono';color:#e6edf7">{{ b.label }}</span><span style="font:400 11px 'Geist Mono';color:#5f7494;width:34px;text-align:right">{{ b.pct }}%</span></div>
+                <div style="height:7px;background:#0c1424;border-radius:4px;overflow:hidden"><div style="width:{{ b.w }};height:100%;background:{{ b.color }};border-radius:4px"></div></div>
+              </div>
+            </sc-for>
+            <sc-if value="{{ noSubBreakdown }}"><div style="padding:18px;text-align:center;font:400 12px 'Geist';color:#5f7494">No expenses in this category yet.</div></sc-if>
+          </div>
+        </div>
+      </div>
+
+      <!-- TRANSACTIONS TABLE (sub-filtered) -->
+      <div style="background:#101c30;border:1px solid #1c2c47;border-radius:16px;overflow:hidden">
+        <div style="padding:18px 22px;display:flex;align-items:center;gap:12px;border-bottom:1px solid #1c2c47"><div style="display:flex;align-items:center;gap:8px"><span style="width:9px;height:9px;border-radius:3px;background:{{ subColor }}"></span><div style="font:600 14px 'Geist';color:#e6edf7">{{ subLabel }} transactions</div></div><div style="margin-left:auto;font:400 11px 'Geist Mono';color:#5f7494">{{ subCount }} entries · newest first</div></div>
+        <div style="display:grid;grid-template-columns:96px 1.1fr 1.4fr 1.1fr 1fr 0.9fr 72px;padding:11px 22px;border-bottom:1px solid #1c2c47;font:600 10px 'Geist';color:#5f7494;text-transform:uppercase;letter-spacing:.05em"><span>Date</span><span>Category</span><span>Vendor</span><span>Shipment</span><span style="text-align:right">Amount</span><span style="text-align:right">Status</span><span></span></div>
+        <sc-for list="{{ subTxRows }}" as="t" hint-placeholder-count="6">
+          <div style="display:grid;grid-template-columns:96px 1.1fr 1.4fr 1.1fr 1fr 0.9fr 72px;padding:12px 22px;border-bottom:1px solid #14223a;align-items:center" style-hover="background:#13233c">
+            <span style="font:400 11px 'Geist Mono';color:#8294b0">{{ t.date }}</span>
+            <span style="display:flex;align-items:center;gap:7px"><span style="width:8px;height:8px;border-radius:3px;background:{{ t.color }};flex-shrink:0"></span><span style="font:500 12px 'Geist';color:#e6edf7">{{ t.category }}</span></span>
+            <span style="font:400 12px 'Geist';color:#cdd9ec;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;padding-right:10px">{{ t.vendor }}</span>
+            <span style="font:400 11px 'Geist Mono';color:#8294b0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;padding-right:10px">{{ t.ref }}</span>
+            <span style="text-align:right"><span style="font:600 12px 'Geist Mono';color:#e6edf7">{{ t.amountLabel }}</span><br><span style="font:400 10px 'Geist Mono';color:#5f7494">{{ t.usdLabel }}</span></span>
+            <span style="text-align:right"><span style="font:600 10px 'Geist';color:{{ t.statusColor }};background:{{ t.statusBg }};padding:4px 9px;border-radius:6px">{{ t.status }}</span></span>
+            <span style="display:flex;justify-content:flex-end;gap:4px"><button onClick="{{ t.onEdit }}" style="appearance:none;border:1px solid #1f2d44;background:none;cursor:pointer;color:#8294b0;font:500 11px 'Geist';padding:3px 8px;border-radius:6px" style-hover="color:#4f8df9;border-color:#4f8df9">Edit</button><button onClick="{{ t.onDelete }}" style="appearance:none;border:none;background:none;cursor:pointer;color:#5f7494;font:400 16px 'Geist';padding:2px 4px;border-radius:5px" style-hover="color:#ff6f59;background:rgba(255,111,89,.1)">×</button></span>
+          </div>
+        </sc-for>
+        <sc-if value="{{ noSubTx }}"><div style="padding:34px;text-align:center;font:400 13px 'Geist';color:#5f7494">No {{ subLabel }} expenses yet — add one above.</div></sc-if>
+      </div>
+
+
+    </div>
+    </sc-if>
+  </div>
+  </sc-if>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  _tick = null;
+  state = {
+    tab: 'overview', seg: 'all',
+    ships: null, docs: null, editShipId: null,
+    sForm: { dir:'Inbound', mode:'Sea', status:'Booked', carrier:'', doc:'', shipper:'', team:'', commodity:'', pol:'', pod:'', gross:'', cont:'', pkgs:'' },
+    dForm: { type:'Bill of Lading', ref:'' },
+    dragOver: false,
+    cdForm: { type:'Invoice', ref:'' },
+    costDragOver: false,
+    unlocked: false, pin: '', pinError: false,
+    expenses: null, editExpId: null,
+    costSubTab: 'vendor',
+    costBudgets: { vendor: 14000000000, indirect: 4000000000, tunai: 2000000000 },
+    form: { date:'2025-10-02', category:'Air freight', vendor:'', ref:'', amount:'', currency:'IDR', status:'Invoiced' },
+  };
+
+  SKEY='mgp_ships_v1'; DKEY='mgp_docs_v1'; CKEY='mgp_cost_v1'; BKEY='mgp_budgets_v1';
+  RATES={ IDR:1 };
+  CATCOLOR={ 'Air freight':'#4f8df9','Ocean freight':'#2cc4d6','Customs & duties':'#f0a93b','Trucking':'#a78bfa','Handling / THC':'#34d399','Insurance':'#ff6f59','Documentation':'#8294b0','Warehouse':'#e0a3c0','Other':'#5f7494','Miscellaneous':'#5f7494' };
+  TYPE_CATS={ vendor:['Air freight','Ocean freight','Trucking','Handling / THC','Other'], indirect:['Insurance','Documentation','Warehouse','Customs & duties','Other'], tunai:['Miscellaneous','Transport lokal','Makan & akomodasi','Operasional kantor','Other'] };
+  TYPE_COLOR={ vendor:'#4f8df9', indirect:'#f0a93b', tunai:'#34d399' };
+  TYPE_LABEL={ vendor:'Vendor', indirect:'Indirect Cost', tunai:'Tunai / Cash' };
+
+  componentWillUnmount(){ clearInterval(this._tick); }
+  componentDidMount() {
+    this._tick = setInterval(()=>this.forceUpdate(), 1000);
+    const budgets = this.load(this.BKEY);
+    let expenses = this.load(this.CKEY);
+    // migrate: if any entry uses non-IDR currency, reseed with IDR data
+    if (expenses && expenses.some(e => e.currency && e.currency !== 'IDR')) {
+      expenses = this.seedCost();
+      this.saveK(this.CKEY, expenses);
+    }
+    let costBudgets = budgets;
+    // migrate budgets: if stored budgets look like USD values (< 1,000,000) reseed
+    if (costBudgets && (costBudgets.vendor < 1000000)) {
+      costBudgets = { vendor:14000000000, indirect:4000000000, tunai:2000000000 };
+      this.saveK(this.BKEY, costBudgets);
+    }
+    this.setState({ ships:this.load(this.SKEY)||this.seedShips(), docs:this.load(this.DKEY)||[], expenses:expenses||this.seedCost(), costBudgets:costBudgets||{ vendor:14000000000, indirect:4000000000, tunai:2000000000 } });
+  }
+  load(k){ try{ const r=localStorage.getItem(k); return r?JSON.parse(r):null; }catch(e){ return null; } }
+  saveK(k,v){ try{ localStorage.setItem(k,JSON.stringify(v)); return true; }catch(e){ return false; } }
+
+  seedShips(){
+    const S=(dir,mode,carrier,doc,shipper,commodity,gross,cont,pkgs,pol,pod,status,team)=>({id:'s'+Math.random().toString(36).slice(2,8),dir,mode,carrier,doc,shipper,commodity,gross,cont,pkgs,pol,pod,status,team});
+    return [S('in','AIR','Qatar Airways','157-05734131','DORNA','Motorbikes & spares',81635,0,158,'Tokyo','Lombok','Delivered','DORNA'),S('in','AIR','Qatar Airways','157-05734142','DORNA','Motorbikes & spares',93499,0,132,'Tokyo','Lombok','Delivered','DORNA'),S('in','AIR','Cargolux','172-92078873','IMPECO','Shell & Coryton fuel',1678,0,41,'Luxembourg','Jakarta','Delivered','Shell'),S('in','SEA','ONE','ONEYBCNF09782500','DORNA','Refrigeration machines',8725,1,29,'Barcelona','Surabaya','Delivered','DORNA'),S('in','SEA','Hapag-Lloyd','HLCUGOA250702551','DORNA','Accessories & hospitality',6818,1,56,'Genoa','Surabaya','Delivered','Severino'),S('in','SEA','CMA CGM','HLCUGOA250762286','DORNA','Layher scaffolding',11330,2,80,'Antwerp','Surabaya','Delivered','Layher'),S('in','AIR','Garuda Indonesia','126-44021883','DORNA','Race equipment',12480,0,57,'Singapore','Denpasar','Delivered','Ducati'),S('out','AIR','Qatar Airways','157-37676531','Australian GP Corp','Motorbikes & spares',58908,0,177,'Lombok','Avalon','Departed','DORNA'),S('out','AIR','Malaysian','232-52899372','Sepang Circuit','Motorbikes & spares',44300,0,56,'Lombok','Kuala Lumpur','Departed','DORNA'),S('out','AIR','Emirates','176-18583913','Sport Logistics','Trophy & flightcase',34,0,1,'Jakarta','Madrid','Departed','DORNA'),S('out','SEA','Hapag-Lloyd','HLCUJK1251010745','Leadership Freight','Accessories & hospitality',6818,1,56,'Surabaya','Genoa','Departed','Severino'),S('out','SEA','Hapag-Lloyd','HLCUJK1251010694','Country Lab','Racing accessories',3064,1,11,'Surabaya','Genoa','Departed','Country Lab')];
+  }
+  seedCost(){
+    return [
+      {id:1,date:'2025-09-08',category:'Air freight',vendor:'Qatar Airways Cargo',ref:'157-05734131',amount:6688000000,currency:'IDR',status:'Paid',costType:'vendor'},
+      {id:2,date:'2025-09-10',category:'Ocean freight',vendor:'Ocean Network Express',ref:'ONEYBCNF09782500',amount:2282000000,currency:'IDR',status:'Paid',costType:'vendor'},
+      {id:3,date:'2025-09-14',category:'Customs & duties',vendor:'PPKEK Customs Broker',ref:'ES2025/72/431',amount:1520000000,currency:'IDR',status:'Invoiced',costType:'indirect'},
+      {id:4,date:'2025-09-18',category:'Trucking',vendor:'TransLombok Logistics',ref:'SUB-LOP',amount:640000000,currency:'IDR',status:'Paid',costType:'vendor'},
+      {id:5,date:'2025-09-20',category:'Handling / THC',vendor:'Pelindo Surabaya',ref:'IDSUB',amount:928000000,currency:'IDR',status:'Paid',costType:'vendor'},
+      {id:6,date:'2025-09-22',category:'Insurance',vendor:'Marsh Cargo',ref:'POL-2025-MGP',amount:384000000,currency:'IDR',status:'Paid',costType:'indirect'},
+      {id:7,date:'2025-10-06',category:'Air freight',vendor:'Qatar Airways Cargo',ref:'157-37676531',amount:4880000000,currency:'IDR',status:'Invoiced',costType:'vendor'},
+      {id:8,date:'2025-10-08',category:'Warehouse',vendor:'Mandalika Bonded WH',ref:'WH-LOP-04',amount:320000000,currency:'IDR',status:'Invoiced',costType:'indirect'},
+      {id:9,date:'2025-10-09',category:'Documentation',vendor:'IAS Forwarding',ref:'DOC-MGP-25',amount:184000000,currency:'IDR',status:'Paid',costType:'indirect'},
+    ];
+  }
+
+  setS(k,v){ this.setState(s=>({sForm:{...s.sForm,[k]:v}})); }
+  setD(k,v){ this.setState(s=>({dForm:{...s.dForm,[k]:v}})); }
+  setForm(k,v){ this.setState(s=>({form:{...s.form,[k]:v}})); }
+  usd(e){ return e.amount*(this.RATES[e.currency]||1); }
+
+  addShipment(){
+    const f=this.state.sForm; if(!f.carrier.trim()&&!f.doc.trim()) return;
+    const e={id:'s'+Date.now(),dir:f.dir==='Outbound'?'out':'in',mode:f.mode==='Air'?'AIR':'SEA',carrier:f.carrier.trim()||'—',doc:f.doc.trim()||'—',shipper:f.shipper.trim(),team:f.team.trim(),commodity:f.commodity.trim()||'—',pol:f.pol.trim()||'—',pod:f.pod.trim()||'—',gross:parseFloat(String(f.gross).replace(/[, ]/g,''))||0,cont:parseInt(f.cont)||0,pkgs:parseInt(f.pkgs)||0,status:f.status};
+    const ships=[e,...(this.state.ships||[])]; this.saveK(this.SKEY,ships);
+    this.setState({ships,sForm:{...f,carrier:'',doc:'',shipper:'',team:'',commodity:'',pol:'',pod:'',gross:'',cont:'',pkgs:''}});
+  }
+  startEditShip(id){ const s=(this.state.ships||[]).find(x=>x.id===id); if(!s) return; this.setState({editShipId:id,sForm:{dir:s.dir==='out'?'Outbound':'Inbound',mode:s.mode==='AIR'?'Air':'Sea',status:s.status||'Booked',carrier:s.carrier,doc:s.doc,shipper:s.shipper,team:s.team,commodity:s.commodity,pol:s.pol,pod:s.pod,gross:String(s.gross||''),cont:String(s.cont||''),pkgs:String(s.pkgs||'')}}); window.scrollTo({top:0,behavior:'smooth'}); }
+  saveEditShip(){ const f=this.state.sForm,id=this.state.editShipId; const ships=(this.state.ships||[]).map(s=>s.id!==id?s:{...s,dir:f.dir==='Outbound'?'out':'in',mode:f.mode==='Air'?'AIR':'SEA',carrier:f.carrier.trim()||'—',doc:f.doc.trim()||'—',shipper:f.shipper.trim(),team:f.team.trim(),commodity:f.commodity.trim()||'—',pol:f.pol.trim()||'—',pod:f.pod.trim()||'—',gross:parseFloat(String(f.gross).replace(/[, ]/g,''))||0,cont:parseInt(f.cont)||0,pkgs:parseInt(f.pkgs)||0,status:f.status}); this.saveK(this.SKEY,ships); this.setState({ships,editShipId:null,sForm:{dir:'Inbound',mode:'Sea',status:'Booked',carrier:'',doc:'',shipper:'',team:'',commodity:'',pol:'',pod:'',gross:'',cont:'',pkgs:''}}); }
+  cancelEditShip(){ this.setState({editShipId:null,sForm:{dir:'Inbound',mode:'Sea',status:'Booked',carrier:'',doc:'',shipper:'',team:'',commodity:'',pol:'',pod:'',gross:'',cont:'',pkgs:''}}); }
+  deleteShip(id){ const ships=(this.state.ships||[]).filter(s=>s.id!==id); this.saveK(this.SKEY,ships); this.setState({ships,editShipId:this.state.editShipId===id?null:this.state.editShipId}); }
+
+  addExpense(){
+    const f=this.state.form,amt=parseFloat(String(f.amount).replace(/[, ]/g,'')); if(!amt||amt<=0) return;
+    const e={id:Date.now(),date:f.date,category:f.category,vendor:f.vendor.trim()||'—',ref:f.ref.trim()||'—',amount:amt,currency:f.currency,status:f.status,costType:this.state.costSubTab};
+    const exp=[e,...(this.state.expenses||[])]; this.saveK(this.CKEY,exp);
+    this.setState({expenses:exp,form:{...f,vendor:'',ref:'',amount:''}});
+  }
+  startEditExp(id){ const e=(this.state.expenses||[]).find(x=>x.id===id); if(!e) return; this.setState({editExpId:id,costSubTab:e.costType||'vendor',form:{date:e.date,category:e.category,vendor:e.vendor,ref:e.ref,amount:String(e.amount),currency:e.currency,status:e.status}}); window.scrollTo({top:0,behavior:'smooth'}); }
+  saveEditExp(){ const f=this.state.form,id=this.state.editExpId,amt=parseFloat(String(f.amount).replace(/[, ]/g,'')); if(!amt||amt<=0) return; const exp=(this.state.expenses||[]).map(e=>e.id!==id?e:{...e,date:f.date,category:f.category,vendor:f.vendor.trim()||'—',ref:f.ref.trim()||'—',amount:amt,currency:f.currency,status:f.status}); this.saveK(this.CKEY,exp); this.setState({expenses:exp,editExpId:null,form:{...f,vendor:'',ref:'',amount:''}}); }
+  cancelEditExp(){ this.setState({editExpId:null,form:{date:'2025-10-02',category:'Air freight',vendor:'',ref:'',amount:'',currency:'USD',status:'Invoiced'}}); }
+  deleteExpense(id){ const exp=(this.state.expenses||[]).filter(e=>e.id!==id); this.saveK(this.CKEY,exp); this.setState({expenses:exp,editExpId:this.state.editExpId===id?null:this.state.editExpId}); }
+
+  updateBudget(type,val){ const v=parseFloat(String(val).replace(/[, ]/g,''))||0; const costBudgets={...this.state.costBudgets,[type]:v}; this.saveK(this.BKEY,costBudgets); this.setState({costBudgets}); }
+
+  handleCostFiles(fl){
+    const files=Array.from(fl||[]); if(!files.length) return;
+    const df=this.state.cdForm, today=new Date().toISOString().slice(0,10);
+    files.forEach(file=>{ const finish=url=>{ const rec={id:'doc-'+Date.now()+'-'+Math.random().toString(36).slice(2,5),name:file.name,size:file.size,type:file.type,docType:df.type,ref:df.ref,date:today,dataUrl:url||null,section:'cost',costType:this.state.costSubTab}; const docs=[rec,...(this.state.docs||[])]; if(!this.saveK(this.DKEY,docs)){rec.dataUrl=null;this.saveK(this.DKEY,docs);} this.setState({docs}); }; if(file.size<=1500000){const r=new FileReader();r.onload=()=>finish(r.result);r.onerror=()=>finish(null);r.readAsDataURL(file);}else finish(null); });
+  }
+  handleFiles(fl){ const files=Array.from(fl||[]); if(!files.length) return; const df=this.state.dForm,today=new Date().toISOString().slice(0,10); files.forEach(file=>{ const finish=url=>{ const rec={id:'doc-'+Date.now()+'-'+Math.random().toString(36).slice(2,5),name:file.name,size:file.size,type:file.type,docType:df.type,ref:df.ref,date:today,dataUrl:url||null}; const docs=[rec,...(this.state.docs||[])]; if(!this.saveK(this.DKEY,docs)){rec.dataUrl=null;this.saveK(this.DKEY,docs);} this.setState({docs}); }; if(file.size<=1500000){const r=new FileReader();r.onload=()=>finish(r.result);r.onerror=()=>finish(null);r.readAsDataURL(file);}else finish(null); }); }
+  deleteDoc(id){ const docs=(this.state.docs||[]).filter(d=>d.id!==id); this.saveK(this.DKEY,docs); this.setState({docs}); }
+  submitPin(){ if(this.state.pin.trim()==='2401') this.setState({unlocked:true,pin:'',pinError:false}); else this.setState({pinError:true}); }
+
+  csvDown(filename,headers,rows){ const esc=v=>'"'+String(v==null?'':v).replace(/"/g,'""')+'"'; const lines=[headers.map(esc).join(','),...rows.map(r=>r.map(esc).join(','))]; const a=document.createElement('a'); a.href='data:text/csv;charset=utf-8,'+encodeURIComponent(lines.join('\r\n')); a.download=filename; document.body.appendChild(a); a.click(); document.body.removeChild(a); }
+  doExportShipsCSV(){ const ships=this.state.ships||[]; this.csvDown('MotoGP_Shipments.csv',['Direction','Mode','Carrier','Document','Shipper','Commodity','Origin','Destination','Gross (kg)','Containers','Packages','Status','Team'],ships.map(s=>[s.dir==='in'?'Inbound':'Outbound',s.mode,s.carrier,s.doc,s.shipper,s.commodity,s.pol,s.pod,s.gross,s.cont,s.pkgs,s.status,s.team])); }
+  doExportExpCSV(){ const exp=this.state.expenses||[]; const SYM={USD:'$',EUR:'€',IDR:'Rp'}; this.csvDown('MotoGP_Expenses.csv',['Date','Cost Type','Category','Vendor','Ref','Amount (IDR)','Status'],exp.map(e=>[e.date,this.TYPE_LABEL[e.costType]||e.costType,e.category,e.vendor,e.ref,Math.round(this.usd(e)),e.status])); }
+
+  renderVals(){
+    const tab=this.state.tab,fmtN=n=>Math.round(n).toLocaleString('en-US'),fmtUSD=n=>'Rp '+fmtN(n),SYM={USD:'Rp ',EUR:'Rp ',IDR:'Rp '};
+    const tabStyle=k=>{ const b="appearance:none;background:none;border:none;border-bottom:2px solid transparent;cursor:pointer;font:500 13px 'Geist';padding:13px 2px;display:flex;align-items:center;gap:7px;"; return tab===k?b+"color:#e6edf7;border-bottom-color:#4f8df9;":b+"color:#8294b0;"; };
+    const segStyle=k=>{ const b="appearance:none;border:none;cursor:pointer;font:500 13px 'Geist',sans-serif;padding:7px 15px;border-radius:8px;transition:all .15s;",seg=this.state.seg; return seg===k?b+"background:linear-gradient(135deg,#4f8df9,#2cc4d6);color:#0a111f;font-weight:600;":b+"background:transparent;color:#8294b0;"; };
+
+    // shipments
+    const ships=this.state.ships||[],seg=this.state.seg,segShips=ships.filter(s=>seg==='all'||s.dir===seg);
+    const sumG=arr=>arr.reduce((a,s)=>a+(s.gross||0),0),fmtT=t=>t>=100?fmtN(t):(Math.round(t*10)/10).toString();
+    const inS=ships.filter(s=>s.dir==='in'),outS=ships.filter(s=>s.dir==='out'),cnt=(arr,m)=>arr.filter(s=>s.mode===m).length;
+    const inSea=cnt(inS,'SEA'),inAir=cnt(inS,'AIR'),outSea=cnt(outS,'SEA'),outAir=cnt(outS,'AIR'),inTotal=inS.length,outTotal=outS.length,maxDir=Math.max(1,inTotal,outTotal);
+    const pw=n=>Math.round((n/maxDir)*100)+'%';
+    const airS=ships.filter(s=>s.mode==='AIR'),seaS=ships.filter(s=>s.mode==='SEA'),airKg=sumG(airS),seaKg=sumG(seaS),allKg=airKg+seaKg,airPctN=allKg?Math.round((airKg/allKg)*100):0;
+    const cmap={};segShips.forEach(s=>{if(!cmap[s.carrier])cmap[s.carrier]={count:0,air:0,sea:0};cmap[s.carrier].count++;cmap[s.carrier][s.mode==='AIR'?'air':'sea']++;});
+    const cEntries=Object.entries(cmap).sort((a,b)=>b[1].count-a[1].count).slice(0,8),maxC=Math.max(1,...cEntries.map(c=>c[1].count));
+    const carriers=cEntries.map(([name,v])=>({name,count:v.count,w:Math.round((v.count/maxC)*100)+'%',color:v.air>=v.sea?'#4f8df9':'#2cc4d6'}));
+    const laneOf=arr=>{const m={};arr.forEach(s=>{const k=s.pol+' → '+s.pod;if(!m[k])m[k]={count:0,air:0,sea:0};m[k].count++;m[k][s.mode==='AIR'?'air':'sea']++;});return Object.entries(m).sort((a,b)=>b[1].count-a[1].count).slice(0,5).map(([name,v])=>({name,label:(v.air>=v.sea?'Air':'Sea')+' · '+v.count+(v.count>1?' shipments':' shipment')}));};
+    const stMeta=st=>{const s=(st||'').toLowerCase();if(s==='delivered'||s==='arrived')return['#34d399','rgba(52,211,153,.12)'];if(s==='booked')return['#f0a93b','rgba(240,169,59,.12)'];return['#4f8df9','rgba(79,141,249,.12)'];};
+    const mkRow=s=>{const[sc,sb]=stMeta(s.status);return{mode:s.mode,modeColor:s.mode==='AIR'?'#4f8df9':'#2cc4d6',modeBg:s.mode==='AIR'?'rgba(79,141,249,.12)':'rgba(44,196,214,.12)',carrier:s.carrier,doc:s.doc,cargo:s.commodity,route:s.pol+' → '+s.pod,weight:s.gross?fmtN(s.gross):'—',status:(s.status||'').toUpperCase(),statusColor:sc,statusBg:sb};};
+    const rows=segShips.map(mkRow),deliveredN=ships.filter(s=>['delivered','arrived'].includes((s.status||'').toLowerCase())).length;
+    const getStage=st=>{const s=(st||'').toLowerCase();if(s.includes('moving to lop')||s.includes('moving to lombok'))return 'moving';if(s.includes('clearance'))return 'clearance';if(s.includes('arrived at port'))return 'arrived';if(s==='arrived')return 'arrived';if(s.includes('in transit')||s==='transit')return 'transit';if(s.includes('departed from origin'))return 'departed_origin';if(s==='delivered'||s==='done'||s==='departed')return 'done';if(s==='booked'||s==='plan')return 'plan';return 'plan';};
+    const PSTAGES=[{key:'plan',label:'Plan',color:'#e74c3c'},{key:'departed_origin',label:'Departed\nfrom Origin',color:'#3498db'},{key:'arrived',label:'Arrived\nat Port',color:'#f39c12'},{key:'clearance',label:'Clearance',color:'#f1c40f'},{key:'transit',label:'Transit',color:'#e67e22'},{key:'moving',label:'Moving\nto LOP',color:'#c0392b'},{key:'done',label:'Done',color:'#27ae60'}];
+    const stageCounts={};ships.forEach(s=>{const k=getStage(s.status);stageCounts[k]=(stageCounts[k]||0)+1;});
+    const pipeline=PSTAGES.map(s=>({...s,count:stageCounts[s.key]||0}));
+    const pipelineTotal=ships.length;
+    const segSub=seg==='all'?(inTotal+' in · '+outTotal+' out'):(seg==='in'?(inSea+' sea · '+inAir+' air'):(outSea+' sea · '+outAir+' air'));
+    const editShipId=this.state.editShipId,editShipRec=editShipId?(ships.find(s=>s.id===editShipId)):null;
+    const manageRows=ships.map(s=>({...mkRow(s),dirLabel:s.dir==='in'?'IN':'OUT',dirColor:s.dir==='in'?'#2cc4d6':'#4f8df9',dirBg:s.dir==='in'?'rgba(44,196,214,.12)':'rgba(79,141,249,.12)',onEdit:()=>this.startEditShip(s.id),onDelete:()=>this.deleteShip(s.id)}));
+
+    // docs
+    const docsRaw=this.state.docs||[],fmtSz=b=>b>1048576?(b/1048576).toFixed(1)+' MB':Math.max(1,Math.round(b/1024))+' KB',extOf=n=>{const p=n.split('.');return(p.length>1?p.pop():'file').toUpperCase().slice(0,4);};
+    const dcol=ext=>({PDF:['#ff6f59','rgba(255,111,89,.14)'],JPG:['#2cc4d6','rgba(44,196,214,.14)'],JPEG:['#2cc4d6','rgba(44,196,214,.14)'],PNG:['#2cc4d6','rgba(44,196,214,.14)'],XLSX:['#34d399','rgba(52,211,153,.14)']}[ext]||['#8294b0','rgba(130,148,176,.14)']);
+    const docs=docsRaw.map(d=>{const ext=extOf(d.name),[ic,ib]=dcol(ext);return{name:d.name,icon:ext,iconColor:ic,iconBg:ib,meta:[d.docType,fmtSz(d.size),d.ref||null,d.date].filter(Boolean).join(' · '),href:d.dataUrl||'about:blank',onDelete:()=>this.deleteDoc(d.id)};});
+
+    // COST
+    const exp=this.state.expenses||[],cb=this.state.costBudgets,cst=this.state.costSubTab;
+    const totalBudget=cb.vendor+cb.indirect+cb.tunai,totalSpent=exp.reduce((a,e)=>a+this.usd(e),0),totalOut=exp.filter(e=>e.status==='Invoiced').reduce((a,e)=>a+this.usd(e),0);
+
+    // type overview (always show all 3)
+    const typeOverview=['vendor','indirect','tunai'].map(t=>{const te=exp.filter(e=>(e.costType||'vendor')===t);const s=te.reduce((a,e)=>a+this.usd(e),0),b=cb[t]||1,pct=Math.round((s/b)*100);return{name:this.TYPE_LABEL[t],committed:fmtUSD(s),budget:fmtUSD(b),pct,barW:Math.min(100,pct)+'%',color:this.TYPE_COLOR[t],count:te.length};});
+
+    // sub-tab
+    const subColor=this.TYPE_COLOR[cst],subLabel=this.TYPE_LABEL[cst];
+    const subSubStyle=t=>{ const b="appearance:none;border:none;cursor:pointer;font:500 13px 'Geist';padding:9px 16px;border-radius:9px;transition:all .15s;"; return cst===t?b+"background:"+this.TYPE_COLOR[t]+";color:#0a111f;font-weight:600;":b+"background:transparent;color:#8294b0;"; };
+    const subExp=exp.filter(e=>(e.costType||'vendor')===cst);
+    const subSpentN=subExp.reduce((a,e)=>a+this.usd(e),0),subBudget=cb[cst]||1,subPct=Math.round((subSpentN/subBudget)*100);
+    const subByCat={};subExp.forEach(e=>{subByCat[e.category]=(subByCat[e.category]||0)+this.usd(e);});
+    const maxSubCat=Math.max(1,...Object.values(subByCat));
+    const subBreakdown=Object.entries(subByCat).sort((a,b)=>b[1]-a[1]).map(([name,v])=>({name,color:this.CATCOLOR[name]||'#5f7494',label:fmtUSD(v),pct:subSpentN?Math.round((v/subSpentN)*100):0,w:Math.round((v/maxSubCat)*100)+'%'}));
+    const editExpId=this.state.editExpId,editExpRec=editExpId?exp.find(e=>e.id===editExpId):null;
+    const subTxRows=subExp.map(e=>({date:e.date,category:e.category,vendor:e.vendor,ref:e.ref,amountLabel:SYM[e.currency]+fmtN(e.amount),usdLabel:'',status:e.status,color:this.CATCOLOR[e.category]||'#5f7494',statusColor:e.status==='Paid'?'#34d399':'#f0a93b',statusBg:e.status==='Paid'?'rgba(52,211,153,.12)':'rgba(240,169,59,.12)',onEdit:()=>this.startEditExp(e.id),onDelete:()=>this.deleteExpense(e.id)}));
+    const f=this.state.form,sf=this.state.sForm,df=this.state.dForm;
+    const shipRefs=ships.map(s=>s.doc).filter(x=>x&&x!=='—').slice(0,30);
+
+    return {
+      showOverview:tab==='overview',showData:tab==='data',showCost:tab==='cost',
+      tabOverviewStyle:tabStyle('overview'),tabDataStyle:tabStyle('data'),tabCostStyle:tabStyle('cost'),
+      selOverview:()=>this.setState({tab:'overview'}),selData:()=>this.setState({tab:'data'}),selCost:()=>this.setState({tab:'cost'}),
+      // overview
+      kShip:segShips.length,kShipSub:segSub,kWeight:fmtT((seg==='all'?sumG(ships):sumG(segShips))/1000),kCont:fmtN(segShips.reduce((a,s)=>a+(s.cont||0),0)),kPkgs:fmtN(segShips.reduce((a,s)=>a+(s.pkgs||0),0)),kCarr:Object.keys(cmap).length,
+      segNote:seg==='all'?'All inbound & outbound legs':(seg==='in'?'Europe & Asia → Mandalika':'Mandalika → home circuits'),segLabel:seg==='all'?'all flows':(seg==='in'?'inbound':'outbound'),
+      segAllStyle:segStyle('all'),segInStyle:segStyle('in'),segOutStyle:segStyle('out'),
+      selAll:()=>this.setState({seg:'all'}),selIn:()=>this.setState({seg:'in'}),selOut:()=>this.setState({seg:'out'}),
+      inTotal,outTotal,inSeaN:inSea,inAirN:inAir,outSeaN:outSea,outAirN:outAir,
+      inSeaW:pw(inSea),inAirW:pw(inAir),outSeaW:pw(outSea),outAirW:pw(outAir),
+      deliveredPct:ships.length?Math.round((deliveredN/ships.length)*100):0,transitN:ships.length-deliveredN,totalLegs:ships.length,
+      airPct:airPctN+'%',seaPct:(100-airPctN)+'%',airT:fmtT(airKg/1000),seaT:fmtT(seaKg/1000),airShips:airS.length,seaShips:seaS.length,
+      carriers,lanesIn:laneOf(inS),lanesOut:laneOf(outS),rows,rowsCount:rows.length,noRows:rows.length===0,
+      rowsNote:seg==='all'?'All entered shipments':(seg==='in'?'Inbound to Mandalika':'Outbound from Mandalika'),
+      pipeline,pipelineTotal,
+      nowDate:(()=>{const n=new Date();return n.toLocaleDateString('id-ID',{weekday:'short',day:'2-digit',month:'short',year:'numeric'});})(),
+      nowTime:(()=>{const n=new Date();return n.toLocaleTimeString('id-ID',{hour:'2-digit',minute:'2-digit',second:'2-digit',hour12:false});})(),
+      exportShipsCSV:()=>this.doExportShipsCSV(),exportPDF:()=>window.print(),
+      // data entry
+      editingShip:!!editShipId,notEditingShip:!editShipId,editShipDoc:editShipRec?editShipRec.doc:'',
+      shipFormTitle:editShipId?'Edit shipment':'New shipment',shipFormSub:editShipId?'Modify and save changes':'Log a shipment as soon as it is booked',shipFormBorder:editShipId?'#f0a93b':'#1c2c47',
+      sDir:sf.dir,sMode:sf.mode,sStatus:sf.status,sCarrier:sf.carrier,sDoc:sf.doc,sShipper:sf.shipper,sTeam:sf.team,sCommodity:sf.commodity,sPol:sf.pol,sPod:sf.pod,sGross:sf.gross,sCont:sf.cont,sPkgs:sf.pkgs,
+      onSDir:e=>this.setS('dir',e.target.value),onSMode:e=>this.setS('mode',e.target.value),onSStatus:e=>this.setS('status',e.target.value),onSCarrier:e=>this.setS('carrier',e.target.value),onSDoc:e=>this.setS('doc',e.target.value),onSShipper:e=>this.setS('shipper',e.target.value),onSTeam:e=>this.setS('team',e.target.value),onSCommodity:e=>this.setS('commodity',e.target.value),onSPol:e=>this.setS('pol',e.target.value),onSPod:e=>this.setS('pod',e.target.value),onSGross:e=>this.setS('gross',e.target.value),onSCont:e=>this.setS('cont',e.target.value),onSPkgs:e=>this.setS('pkgs',e.target.value),
+      addShipment:()=>this.addShipment(),saveEditShip:()=>this.saveEditShip(),cancelEditShip:()=>this.cancelEditShip(),
+      manageRows,allShipCount:ships.length,noShip:ships.length===0,
+      dType:df.type,dRef:df.ref,onDType:e=>this.setD('type',e.target.value),onDRef:e=>this.setD('ref',e.target.value),
+      shipRefs,docs,docCount:docsRaw.length,noDocs:docsRaw.length===0,
+      dropBorder:this.state.dragOver?'#4f8df9':'#2a3c5a',dropBg:this.state.dragOver?'rgba(79,141,249,.07)':'#0c1424',
+      onDragOver:e=>{e.preventDefault();if(!this.state.dragOver)this.setState({dragOver:true});},onDragLeave:e=>{e.preventDefault();this.setState({dragOver:false});},onDrop:e=>{e.preventDefault();this.setState({dragOver:false});this.handleFiles(e.dataTransfer.files);},onFiles:e=>{this.handleFiles(e.target.files);e.target.value='';},
+      // cost gate
+      locked:!this.state.unlocked,unlocked:this.state.unlocked,pin:this.state.pin,pinError:this.state.pinError,pinBorder:this.state.pinError?'#ff6f59':'#1f2d44',
+      onPin:e=>this.setState({pin:e.target.value,pinError:false}),onPinKey:e=>{if(e.key==='Enter')this.submitPin();},submitPin:()=>this.submitPin(),lock:()=>this.setState({unlocked:false,pin:''}),
+      // cost overall
+      cTotalBudget:fmtUSD(totalBudget),cTotalSpent:fmtUSD(totalSpent),cTotalPct:totalBudget?Math.round((totalSpent/totalBudget)*100):0,cTotalRem:fmtUSD(totalBudget-totalSpent),cTotalRemColor:(totalBudget-totalSpent)<0?'#ff6f59':'#34d399',cTotalOut:fmtUSD(totalOut),cTotalCount:exp.length,
+      typeOverview,
+      // sub-tabs
+      subVendorStyle:subSubStyle('vendor'),subIndirectStyle:subSubStyle('indirect'),subTunaiStyle:subSubStyle('tunai'),
+      selVendor:()=>this.setState({costSubTab:'vendor',form:{...this.state.form,category:this.TYPE_CATS['vendor'][0]}}),
+      selIndirect:()=>this.setState({costSubTab:'indirect',form:{...this.state.form,category:this.TYPE_CATS['indirect'][0]}}),
+      selTunai:()=>this.setState({costSubTab:'tunai',form:{...this.state.form,category:this.TYPE_CATS['tunai'][0]}}),
+      subLabel,subColor,
+      subBudgetVal:String(cb[cst]||0),subBudgetFmt:fmtUSD(cb[cst]||0),
+      onSubBudget:e=>this.updateBudget(cst,e.target.value),
+      subSpent:fmtUSD(subSpentN),subRem:fmtUSD(subBudget-subSpentN),subRemColor:(subBudget-subSpentN)<0?'#ff6f59':'#34d399',subPct,subBarW:Math.min(100,subPct)+'%',subCount:subExp.length,
+      subBreakdown,noSubBreakdown:subBreakdown.length===0,
+      subTxRows,noSubTx:subTxRows.length===0,
+      subCatOptions:this.TYPE_CATS[cst]||[],
+      // expense form
+      editingExp:!!editExpId,notEditingExp:!editExpId,editExpRef:editExpRec?(editExpRec.vendor+' · '+editExpRec.ref):'',
+      expFormTitle:editExpId?'Edit expense':'Add '+subLabel+' expense',expFormSub:editExpId?'Modify and save':'Log a cost the moment it comes in',expFormBorder:editExpId?'#f0a93b':'#1c2c47',
+      formDate:f.date,formCategory:f.category,formVendor:f.vendor,formRef:f.ref,formAmount:f.amount,formCurrency:f.currency,formStatus:f.status,
+      onDate:e=>this.setForm('date',e.target.value),onCategory:e=>this.setForm('category',e.target.value),onVendor:e=>this.setForm('vendor',e.target.value),onRef:e=>this.setForm('ref',e.target.value),onAmount:e=>this.setForm('amount',e.target.value),onAmountKey:e=>{if(e.key==='Enter')this.addExpense();},onCurrency:e=>this.setForm('currency',e.target.value),onStatus:e=>this.setForm('status',e.target.value),
+      addExpense:()=>this.addExpense(),saveEditExp:()=>this.saveEditExp(),cancelEditExp:()=>this.cancelEditExp(),exportExpCSV:()=>this.doExportExpCSV(),
+      // cost docs
+      cdType:this.state.cdForm.type,cdRef:this.state.cdForm.ref,
+      onCDType:e=>this.setState(s=>({cdForm:{...s.cdForm,type:e.target.value}})),
+      onCDRef:e=>this.setState(s=>({cdForm:{...s.cdForm,ref:e.target.value}})),
+      costDropBorder:this.state.costDragOver?'#4f8df9':'#2a3c5a',costDropBg:this.state.costDragOver?'rgba(79,141,249,.07)':'#0c1424',
+      onCostDragOver:e=>{e.preventDefault();if(!this.state.costDragOver)this.setState({costDragOver:true});},
+      onCostDragLeave:e=>{e.preventDefault();this.setState({costDragOver:false});},
+      onCostDrop:e=>{e.preventDefault();this.setState({costDragOver:false});this.handleCostFiles(e.dataTransfer.files);},
+      onCostFiles:e=>{this.handleCostFiles(e.target.files);e.target.value='';},
+      costDocs:(this.state.docs||[]).filter(d=>d.section==='cost'&&d.costType===cst).map(d=>{const ext=extOf(d.name),[ic,ib]=dcol(ext);return{name:d.name,icon:ext,iconColor:ic,iconBg:ib,meta:[d.docType,fmtSz(d.size),d.ref||null,d.date].filter(Boolean).join(' · '),href:d.dataUrl||'about:blank',onDelete:()=>this.deleteDoc(d.id)};}).slice(),
+      costDocCount:(this.state.docs||[]).filter(d=>d.section==='cost'&&d.costType===cst).length,
+      noCostDocs:(this.state.docs||[]).filter(d=>d.section==='cost'&&d.costType===cst).length===0,
+      costExpRefs:subExp.map(e=>e.vendor+' — '+e.ref).filter(Boolean).slice(0,30),
+    };
+  }
+}
+</script>
+</body>
+</html>

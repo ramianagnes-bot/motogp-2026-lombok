@@ -1,0 +1,152 @@
+{
+ "inSea": {
+  "count": 16,
+  "gross": 91131.95999999999,
+  "c20": 0,
+  "c40": 146,
+  "pkgs": 7945,
+  "status": {
+   "DONE": 16
+  },
+  "line": {
+   "HAPPAG LLOYD": 3,
+   "ONE": 8,
+   "CMA CGM": 3,
+   "OOCL": 1
+  },
+  "pol": {
+   "ITGOA": 3,
+   "ESBCN": 2,
+   "BEANR": 1,
+   "MYPKG": 1
+  },
+  "pod": {
+   "IDSUB": 7
+  },
+  "team": {
+   "SEVERINO": 1,
+   "COUNTRY LAB": 2,
+   "AIRES": 1,
+   "CAJAS": 1,
+   "LAHYER": 1,
+   "TV GCMS": 1,
+   "TV PVCS": 1,
+   "BANNERS": 3,
+   "PIRELLI": 3,
+   "FUEL": 1,
+   "MGPA": 1
+  },
+  "comm": {
+   "DEAL": 14,
+   "INQUIRY": 2
+  }
+ },
+ "inAir": {
+  "count": 22,
+  "gross": 416139.5,
+  "c20": 0,
+  "c40": 0,
+  "pkgs": 2844.5,
+  "status": {
+   "DONE": 17
+  },
+  "line": {
+   "QATAR AIRWAYS": 11,
+   "CARGOLUX": 4,
+   "CATHAY PACIFIC": 1,
+   "KOREAN AIR": 1,
+   "GARUDA INDONESIA": 2,
+   "CHINA AIRLINES": 1,
+   "CHINA EASTERN AIRLINES": 1,
+   "SINGAPORE AIRLINES": 1
+  },
+  "pol": {
+   "NRT": 7,
+   "LUX": 3,
+   "MXP": 5,
+   "AMS": 3,
+   "ATL": 1,
+   "MAD": 1,
+   "PVG": 1,
+   "SIN": 1
+  },
+  "pod": {
+   "LOP": 5,
+   "CGK": 6,
+   "SUB": 1,
+   "DPS": 10
+  },
+  "team": {
+   "181": 2,
+   "SHELL & CORYTON": 1,
+   "SCUDERIA": 1,
+   "KTM": 1,
+   "HRC & KTM": 2,
+   "DUCATI": 1,
+   "REPSOL": 1
+  },
+  "comm": {
+   "DEAL": 14,
+   "INQUIRY": 3
+  }
+ },
+ "outSea": {
+  "count": 19,
+  "gross": 93800.95999999999,
+  "c20": 0,
+  "c40": 0,
+  "pkgs": 7945,
+  "status": {
+   "DEPARTED TO DESTINATION": 14
+  },
+  "line": {
+   "HAPPAG LLOYD": 4
+  },
+  "pol": {
+   "IDSUB": 5
+  },
+  "pod": {
+   "ITGOA": 3,
+   "ESBCN": 1,
+   "BEANR": 1
+  },
+  "team": {
+   "DORNA": 10,
+   "COUNTRY LAB": 1,
+   "PIRELLI": 3
+  },
+  "comm": {
+   "INQUIRY": 14
+  }
+ },
+ "outAir": {
+  "count": 11,
+  "gross": 406659,
+  "c20": 0,
+  "c40": 0,
+  "pkgs": 937,
+  "status": {
+   "DEPARTED TO DESTINATION": 7
+  },
+  "line": {
+   "QATAR AIRWAYS": 5,
+   "MALAYSIAN AIRLINES": 1,
+   "EMIRATES": 1
+  },
+  "pol": {
+   "IDLOP": 6,
+   "IDCGK": 1
+  },
+  "pod": {
+   "AUAVV": 5,
+   "MYKUL": 1,
+   "ESMAD": 1
+  },
+  "team": {
+   "DORNA": 1
+  },
+  "comm": {
+   "DEAL": 7
+  }
+ }
+}
